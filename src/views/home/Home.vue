@@ -45,10 +45,10 @@
       <div class="home-svg" v-if="!isLogin&&showSvg">
       <div class="svg-info">
         <div class="info-title">
-          在 SegmentFault，学习技能、解决问题
+          在 YoYo Transaction，转手闲置、淘换宝贝
         </div>
         <div class="info-content">
-          每个月，我们帮助 1000 万的开发者解决各种各样的技术问题。并助力他们在技术能力、职业生涯、影响力上获得提升。
+          每一天，我们都在为师大校园内的小伙伴们提供闲置物品的交易平台，并为他们在校内社交、问题求助上获得帮助。
         </div>
       </div>
       <div class="svg-user">
@@ -66,8 +66,8 @@
     </transition>
     <div class="home-content">
       <div class="content-nav">
-        <el-menu :default-active="index" router="true">
-          <el-menu-item index="1">
+        <el-menu :default-active="activeName">
+          <el-menu-item index="NewsItem">
             <i class="el-icon-menu"></i>
             <span slot="title">为你推荐</span>
           </el-menu-item>
@@ -95,7 +95,8 @@
       </div>
       <div class="content-main">
         <Lunbo></Lunbo>
-        <NewsItem :data="newsList"></NewsItem>
+        <!--<NewsItem :data="newsList"></NewsItem>-->
+        <router-view></router-view>
       </div>
       <div class="content-recommend">
         <div class="hot-header">
@@ -115,13 +116,14 @@
       </div>
     </div>
     <div class="home-footer">
+      <div class="footer-content">
 
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-  import NewsItem from './components/NewsItem';
   import Lunbo from './components/Lunbo';
 
   export default {
@@ -129,7 +131,6 @@
     props: {},
     mixins: [],
     components: {
-      NewsItem,
       Lunbo,
     },
     data() {
@@ -137,65 +138,7 @@
         searchValue:'',
         isLogin:false,
         showSvg:true,
-        index:"1",
-        newsList:[
-          {
-            id:1,
-            title:'学长考研资料便宜出啦~',
-            content:'考研结束，学长所用的考研资料便宜考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的出，还附赠学长自己所做的考研笔记，觉得物超所值，准备考研的学弟学妹们还在等什么，和我联系吧！',
-            time:'2019.3.20',
-            author:'groot'
-          },
-          {
-            id:2,
-            title:'学长考研资料便宜出啦~',
-            content:'考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研笔记，觉得物超所值，准备考研的学弟学妹们还在等什么，和我联系吧！',
-            time:'2019.3.20',
-            author:'groot'
-          },
-          {
-            id:3,
-            title:'学长考研资料便宜出啦~',
-            content:'考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研笔记，觉得物超所值，准备考研的学弟学妹们还在等什么，和我联系吧！',
-            time:'2019.3.20',
-            author:'groot'
-          },
-          {
-            id:4,
-            title:'学长考研资料便宜出啦~',
-            content:'考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研笔记，觉得物超所值，准备考研的学弟学妹们还在等什么，和我联系吧！',
-            time:'2019.3.20',
-            author:'groot'
-          },
-          {
-            id:5,
-            title:'学长考研资料便宜出啦~',
-            content:'考研结束，学长所用的考研资料便宜考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的出，还附赠学长自己所做的考研笔记，觉得物超所值，准备考研的学弟学妹们还在等什么，和我联系吧！',
-            time:'2019.3.20',
-            author:'groot'
-          },
-          {
-            id:6,
-            title:'学长考研资料便宜出啦~',
-            content:'考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研笔记，觉得物超所值，准备考研的学弟学妹们还在等什么，和我联系吧！',
-            time:'2019.3.20',
-            author:'groot'
-          },
-          {
-            id:7,
-            title:'学长考研资料便宜出啦~',
-            content:'考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研笔记，觉得物超所值，准备考研的学弟学妹们还在等什么，和我联系吧！',
-            time:'2019.3.20',
-            author:'groot'
-          },
-          {
-            id:8,
-            title:'学长考研资料便宜出啦~',
-            content:'考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研笔记，觉得物超所值，准备考研的学弟学妹们还在等什么，和我联系吧！',
-            time:'2019.3.20',
-            author:'groot'
-          },
-        ]
+        activeName:"NewsItem",
       };
     },
     computed: {},
@@ -401,10 +344,18 @@
          }
        }
        .home-footer{
-         background-color: red;
          height: 200px;
-         width: 1140px;
+         width: 100%;
          margin: 0 auto;
+         border-top: 1px solid #EEE;
+         padding: 40px 0;
+         color: #888;
+         line-height: 1.6;
+         .footer-content{
+           width: 970px;
+           margin:0 auto;
+           height: 100%;
+         }
        }
      }
 </style>
