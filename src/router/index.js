@@ -15,7 +15,7 @@ export default new Router({
       component: Home,
       children: [
         {
-          path: 'NewsItem',
+          path: '/NewsItem',
           name: 'NewsItem',
           component: NewsItem,
           meta: {

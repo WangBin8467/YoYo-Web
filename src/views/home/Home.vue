@@ -66,7 +66,7 @@
     </transition>
     <div class="home-content">
       <div class="content-nav">
-        <el-menu :default-active="activeName">
+        <el-menu :default-active="activeName" router>
           <el-menu-item index="NewsItem">
             <i class="el-icon-menu"></i>
             <span slot="title">为你推荐</span>
