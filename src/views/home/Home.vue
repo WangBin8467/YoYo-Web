@@ -6,8 +6,9 @@
 */
 <template>
   <div class="Home-container">
-    <div class="home-top"></div>
-    <div class="home-header-container">
+    <div class="nav-top">
+      <div class="home-top"></div>
+      <div class="home-header-container">
       <div class="home-header">
         <div class="header-title">
           <div class="header-logo">
@@ -41,6 +42,7 @@
         </div>
       </div>
     </div>
+    </div>
     <transition name="el-zoom-in-top">
       <div class="home-svg" v-if="!isLogin&&showSvg">
       <div class="svg-info">
@@ -48,7 +50,7 @@
           在 YoYo Transaction，转手闲置、淘换宝贝
         </div>
         <div class="info-content">
-          每一天，我们都在为师大校园内的小伙伴们提供闲置物品的交易平台，并为他们在校内社交、问题求助上获得帮助。
+          每一天，我们都在促成师大校园内小伙伴们闲置物品的相互交易，并为他们在校内社交、问题求助上提供帮助。
         </div>
       </div>
       <div class="svg-user">
@@ -117,7 +119,29 @@
     </div>
     <div class="home-footer">
       <div class="footer-content">
-
+        <ul>
+          <li class="ul-title"><a href="javascript:;">关于YoYo</a></li>
+          <li><a href="javascript:;">联系我们</a></li>
+          <li><a href="javascript:;">加入我们</a></li>
+          <li><a href="javascript:;">后台入口</a></li>
+        </ul>
+        <ul>
+          <li class="ul-title"><a  href="javascript:;">友情连接</a></li>
+          <li><a href="https://2.taobao.com">闲鱼</a></li>
+          <li><a href="http://www.zhuanzhuan.com/">转转</a></li>
+          <li><a href="https://nc.58.com/">58同城</a></li>
+        </ul>
+        <ul>
+          <li class="ul-title"><a  href="javascript:;">版权所有</a></li>
+          <li>
+            <a href="javascript:;">开发者：Groot</a>
+          </li>
+          <li><a href="javascript:;">指导老师：曾雅琳</a></li>
+          <li><a href="http://rjxy.jxnu.edu.cn/">江西师范大学软件学院</a></li>
+        </ul>
+        <div class="code-about">
+          <a href="https://github.com/WangBin8467"><i class="fa fa-github"></i>&nbsp;&nbsp;Groot</a>
+        </div>
       </div>
     </div>
   </div>
@@ -153,81 +177,89 @@
 <style lang="scss" scoped>
      .Home-container{
        min-height: 100%;
-       .home-top{
-         height: 3px;
-         background-color:#409EFF ;
-       }
-       .home-header-container{
-         box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
-         .home-header{
-           height: 64px;
-           line-height: 64px;
-           width: 1140px;
-           margin: 0 auto;
-           display: flex;
-           justify-content: space-between;
-           .header-title{
+       .nav-top{
+         position: fixed;
+         top:0;
+         z-index: 999;
+         background-color: white;
+         width: 100%;
+         .home-top{
+           height: 3px;
+           background-color:#409EFF ;
+         }
+         .home-header-container{
+           box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
+           .home-header{
+             height: 64px;
+             line-height: 64px;
+             width: 1140px;
+             margin: 0 auto;
              display: flex;
-             flex-direction: row;
-             .header-logo{
-               width: 150px;
-               height: 100%;
-               margin-top: -75px;
-               margin-right: 60px;
-               cursor: pointer;
-             }
-             .header-nav{
-               height: 100%;
-               line-height: 64px;
-               margin-left: 20px;
-               ul{
-                 margin: 0;
-                 list-style: none;
-                 padding: 0;
+             justify-content: space-between;
+             .header-title{
+               display: flex;
+               flex-direction: row;
+               .header-logo{
+                 width: 150px;
+                 height: 100%;
+                 margin-top: -75px;
+                 margin-right: 60px;
+                 cursor: pointer;
                }
-               .nav-ul{
-                 .li-item{
-                   display: inline-block;
-                   padding: 0 10px;
-                   color: #757575;
-                   font-size: 16px;
-                   cursor: pointer;
+               .header-nav{
+                 height: 100%;
+                 line-height: 64px;
+                 margin-left: 20px;
+                 ul{
+                   margin: 0;
+                   list-style: none;
+                   padding: 0;
                  }
-                 .first{
-                   color: #409EFF;
-                   font-weight: bold;
+                 .nav-ul{
+                   .li-item{
+                     display: inline-block;
+                     padding: 0 10px;
+                     color: #757575;
+                     font-size: 16px;
+                     cursor: pointer;
+                   }
+                   .first{
+                     color: #409EFF;
+                     font-weight: bold;
+                   }
                  }
                }
              }
-           }
-           .header-search{
+             .header-search{
 
-           }
-           .header-user{
-             display: flex;
-             flex-direction: row;
-             align-items: center;
-             .user-login{
-               color: #409EFF;
-               font-size: 14px;
-               cursor: pointer;
              }
-             .user-register{
-               cursor: pointer;
-               height: 30px;
-               line-height: 30px;
-               background-color: #409EFF;
-               margin-left: 20px;
-               color: #fff;
-               border-color: #008151;
-               padding: 0 13px;
-               font-size: 14px;
-               border-radius: 4px;
+             .header-user{
+               display: flex;
+               flex-direction: row;
+               align-items: center;
+               .user-login{
+                 color: #409EFF;
+                 font-size: 14px;
+                 cursor: pointer;
+               }
+               .user-register{
+                 cursor: pointer;
+                 height: 30px;
+                 line-height: 30px;
+                 background-color: #409EFF;
+                 margin-left: 20px;
+                 color: #fff;
+                 border-color: #008151;
+                 padding: 0 13px;
+                 font-size: 14px;
+                 border-radius: 4px;
+               }
              }
            }
          }
        }
        .home-svg{
+         margin-top: 64px;
          background-color:#409EFF;
          height: 188px;
          position: relative;
@@ -348,13 +380,41 @@
          width: 100%;
          margin: 0 auto;
          border-top: 1px solid #EEE;
-         padding: 40px 0;
-         color: #888;
+
+         padding-top: 40px;
          line-height: 1.6;
+         background-color: #2c3e50;
          .footer-content{
            width: 970px;
            margin:0 auto;
            height: 100%;
+           display: flex;
+           justify-content: space-around;
+           ul{
+             list-style: none;
+             font-size: 12px;
+             margin: 0 20px;
+             .ul-title{
+               font-weight: bold;
+               font-size: 14px;
+             }
+             li{
+               padding: 5px 0;
+               a{
+                 text-decoration: none;
+                 color: #d3d3d3;
+               }
+             }
+           }
+           .code-about{
+             margin-top: 20px;
+             margin-left: 50px;
+             font-size: 14px;
+             a{
+               text-decoration: none;
+               color: #e4e4e4;
+              }
+           }
          }
        }
      }
