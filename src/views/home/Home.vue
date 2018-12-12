@@ -33,10 +33,10 @@
             </el-input>
           </div>
           <div class="header-user">
-            <div class="user-login">
+            <div class="user-login" @click="openDialog('login')">
               立即登录
             </div>
-            <div class="user-register">
+            <div class="user-register" @click="openDialog('register')">
               免费注册
             </div>
           </div>
@@ -54,10 +54,10 @@
           </div>
         </div>
         <div class="svg-user">
-          <div class="register user">
+          <div class="register user" @click="openDialog('register')">
             免费注册
           </div>
-          <div class="login user">
+          <div class="login user" @click="openDialog('login')">
             立即登录
           </div>
         </div>
@@ -147,6 +147,17 @@
     <div class="home-to-top" @click="scrollTop">
       返回<br/>顶部
     </div>
+    <div class="user-dialog">
+      <el-dialog :visible.sync="showDialog"
+                 :title="activeTab==='login'?'用户登录':'用户注册'"
+                 width="40%"
+                 center>
+        <el-tabs v-model="activeTab">
+          <el-tab-pane label="登录" name="login">登录</el-tab-pane>
+          <el-tab-pane label="注册" name="register">注册</el-tab-pane>
+        </el-tabs>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -166,6 +177,8 @@
         isLogin: false,
         showSvg: true,
         activeName: 'NewsItem',
+        showDialog: false,
+        activeTab: 'login',
       };
     },
     computed: {},
@@ -175,7 +188,15 @@
     },
     methods: {
       scrollTop() {
-        $('body,html').scrollTop(0);
+        $('body,html').animate({ scrollTop: 0 }, 50);
+      },
+      openDialog(type) {
+        this.showDialog = true;
+        if (type === 'register') {
+          this.activeTab = 'register';
+        } else {
+          this.activeTab = 'login';
+        }
       },
     },
   };
@@ -439,6 +460,9 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, .3);
       cursor: pointer;
       user-select: none;
+    }
+    .user-dialog {
+    
     }
   }
 </style>
