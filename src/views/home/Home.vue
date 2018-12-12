@@ -9,62 +9,62 @@
     <div class="nav-top">
       <div class="home-top"></div>
       <div class="home-header-container">
-      <div class="home-header">
-        <div class="header-title">
-          <div class="header-logo">
-            <img src="../../assets/home/yoyo-logo.png">
+        <div class="home-header">
+          <div class="header-title">
+            <div class="header-logo">
+              <img src="../../assets/home/yoyo-logo.png">
+            </div>
+            <div class="header-nav">
+              <ul class="nav-ul">
+                <li class="li-item first">首页</li>
+                <li class="li-item">问答</li>
+                <li class="li-item">专栏</li>
+                <li class="li-item">讲堂</li>
+                <li class="li-item">发现</li>
+              </ul>
+            </div>
           </div>
-          <div class="header-nav">
-            <ul class="nav-ul">
-              <li class="li-item first">首页</li>
-              <li class="li-item">问答</li>
-              <li class="li-item">专栏</li>
-              <li class="li-item">讲堂</li>
-              <li class="li-item">发现</li>
-            </ul>
+          <div class="header-search">
+            <el-input v-model="searchValue"
+                      placeholder="请输入内容"
+                      size="medium"
+                      clearable>
+              <el-button slot="append" icon="el-icon-search"></el-button>
+            </el-input>
           </div>
-        </div>
-        <div class="header-search">
-          <el-input v-model="searchValue"
-                    placeholder="请输入内容"
-                    size="medium"
-                    clearable>
-            <el-button slot="append" icon="el-icon-search"></el-button>
-          </el-input>
-        </div>
-        <div class="header-user">
-          <div class="user-login">
-            立即登录
-          </div>
-          <div class="user-register">
-            免费注册
+          <div class="header-user">
+            <div class="user-login">
+              立即登录
+            </div>
+            <div class="user-register">
+              免费注册
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
     <transition name="el-zoom-in-top">
       <div class="home-svg" v-if="!isLogin&&showSvg">
-      <div class="svg-info">
-        <div class="info-title">
-          在 YoYo Transaction，转手闲置、淘换宝贝
+        <div class="svg-info">
+          <div class="info-title">
+            在 YoYo Transaction，转手闲置、淘换宝贝
+          </div>
+          <div class="info-content">
+            每一天，我们都在促成师大校园内小伙伴们闲置物品的相互交易，并为他们在校内社交、问题求助上提供帮助。
+          </div>
         </div>
-        <div class="info-content">
-          每一天，我们都在促成师大校园内小伙伴们闲置物品的相互交易，并为他们在校内社交、问题求助上提供帮助。
+        <div class="svg-user">
+          <div class="register user">
+            免费注册
+          </div>
+          <div class="login user">
+            立即登录
+          </div>
+        </div>
+        <div class="close" @click="showSvg=false">
+          x
         </div>
       </div>
-      <div class="svg-user">
-        <div class="register user">
-           免费注册
-        </div>
-        <div class="login user">
-           立即登录
-        </div>
-      </div>
-      <div class="close" @click="showSvg=false">
-        x
-      </div>
-    </div>
     </transition>
     <div class="home-content">
       <div class="content-nav">
@@ -82,8 +82,8 @@
             <span slot="title">树洞</span>
           </el-menu-item>
           <el-menu-item index="4">
-           <i class="el-icon-setting"></i>
-           <span slot="title">寻物启事</span>
+            <i class="el-icon-setting"></i>
+            <span slot="title">寻物启事</span>
           </el-menu-item>
           <el-menu-item index="5">
             <i class="el-icon-setting"></i>
@@ -126,13 +126,13 @@
           <li><a href="javascript:;">后台入口</a></li>
         </ul>
         <ul>
-          <li class="ul-title"><a  href="javascript:;">友情连接</a></li>
+          <li class="ul-title"><a href="javascript:;">友情连接</a></li>
           <li><a href="https://2.taobao.com">闲鱼</a></li>
           <li><a href="http://www.zhuanzhuan.com/">转转</a></li>
           <li><a href="https://nc.58.com/">58同城</a></li>
         </ul>
         <ul>
-          <li class="ul-title"><a  href="javascript:;">版权所有</a></li>
+          <li class="ul-title"><a href="javascript:;">版权所有</a></li>
           <li>
             <a href="javascript:;">开发者：Groot</a>
           </li>
@@ -143,6 +143,9 @@
           <a href="https://github.com/WangBin8467"><i class="fa fa-github"></i>&nbsp;&nbsp;Groot</a>
         </div>
       </div>
+    </div>
+    <div class="home-to-top" @click="scrollTop">
+      返回<br/>顶部
     </div>
   </div>
 </template>
@@ -159,10 +162,10 @@
     },
     data() {
       return {
-        searchValue:'',
-        isLogin:false,
-        showSvg:true,
-        activeName:"NewsItem",
+        searchValue: '',
+        isLogin: false,
+        showSvg: true,
+        activeName: 'NewsItem',
       };
     },
     computed: {},
@@ -170,261 +173,281 @@
     },
     mounted() {
     },
-    methods: {},
+    methods: {
+      scrollTop() {
+        $('body,html').scrollTop(0);
+      },
+    },
   };
 </script>
 
 <style lang="scss" scoped>
-     .Home-container{
-       min-height: 100%;
-       .nav-top{
-         position: fixed;
-         top:0;
-         z-index: 999;
-         background-color: white;
-         width: 100%;
-         .home-top{
-           height: 3px;
-           background-color:#409EFF ;
-         }
-         .home-header-container{
-           box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.1), 0 1px rgba(0,0,0,0.1);
-           .home-header{
-             height: 64px;
-             line-height: 64px;
-             width: 1140px;
-             margin: 0 auto;
-             display: flex;
-             justify-content: space-between;
-             .header-title{
-               display: flex;
-               flex-direction: row;
-               .header-logo{
-                 width: 150px;
-                 height: 100%;
-                 margin-top: -75px;
-                 margin-right: 60px;
-                 cursor: pointer;
-               }
-               .header-nav{
-                 height: 100%;
-                 line-height: 64px;
-                 margin-left: 20px;
-                 ul{
-                   margin: 0;
-                   list-style: none;
-                   padding: 0;
-                 }
-                 .nav-ul{
-                   .li-item{
-                     display: inline-block;
-                     padding: 0 10px;
-                     color: #757575;
-                     font-size: 16px;
-                     cursor: pointer;
-                   }
-                   .first{
-                     color: #409EFF;
-                     font-weight: bold;
-                   }
-                 }
-               }
-             }
-             .header-search{
-
-             }
-             .header-user{
-               display: flex;
-               flex-direction: row;
-               align-items: center;
-               .user-login{
-                 color: #409EFF;
-                 font-size: 14px;
-                 cursor: pointer;
-               }
-               .user-register{
-                 cursor: pointer;
-                 height: 30px;
-                 line-height: 30px;
-                 background-color: #409EFF;
-                 margin-left: 20px;
-                 color: #fff;
-                 border-color: #008151;
-                 padding: 0 13px;
-                 font-size: 14px;
-                 border-radius: 4px;
-               }
-             }
-           }
-         }
-       }
-       .home-svg{
-         margin-top: 64px;
-         background-color:#409EFF;
-         height: 188px;
-         position: relative;
-         background-image: url("../../assets/home/banner-bg.svg");
-         display: flex;
-         justify-content: space-between;
-         padding: 0 15%;
-         .svg-info{
-           max-width: 970px;
-           margin: 40px 0 0 0;
-           .info-title{
-             padding-bottom: 20px;
-             font-size: 30px;
-             color: #fff;
-           }
-           .info-content{
-             font-size: 18px;
-             color: #fff;
-             width: 80%;
-           }
-         }
-         .svg-user{
-           display: flex;
-           flex-direction: row;
-           height: 40px;
-           margin: auto 0;
-           .user{
-             padding: 10px 16px;
-             font-size: 18px;
-             line-height: 1.33;
-             border-radius: 6px;
-             cursor: pointer;
-             box-sizing: border-box;
-             min-width: 106px;
-           }
-           .register{
-             color: #409EFF;
-             background-color: white;
-
-           }
-           .login{
-             margin-left: 20px;
-             border: 1px solid white;
-             color: white;
-           }
-         }
-         .close{
-           width: 20px;
-           height: 20px;
-           border-radius: 10px;
-           position: absolute;
-           text-align: center;
-           line-height: 18px;
-           top: 15px;
-           right: 15px;
-           cursor: pointer;
-           background-color: #2e78c1;
-           color: rgba(255,255,255,0.25);
-         }
-       }
-       .home-content{
-         padding: 0 15%;
-         margin: 30px auto;
-         display: flex;
-         flex-direction: row;
-         min-height: 700px;
-         .content-nav{
-
-           width: 15%;
-           height: 100%;
-         }
-         .content-main{
-           width: 55%;
-           height: 100%;
-           padding: 0 20px;
-         }
-         .content-recommend{
-           width: 25%;
-           height: 100%;
-           .hot-header{
-             padding: 15px 5px;
-             color: #212121;
-             font-weight: 500;
-             display: flex;
-             justify-content: space-between;
-             .hot-top{
-               color: red;
-               font-size: 13px;
-               margin-top: 5px;
-             }
-           }
-           .hot-group{
-             display: flex;
-             flex-direction: row;
-             height: 300px;
-             padding-top: 5px;
-             .hot-item{
-               width: 290px;
-               .hot-title{
-                 font-size: 14px;
-               }
-               .hot-info{
-
-               }
-             }
-             .hot-progress{
-               margin-left: 10px;
-               width: 25px;
-               height: 100%;
-               background: linear-gradient(to bottom, #f54912, #ffc8d0);
-               border-radius: 20px;
-             }
-           }
-         }
-       }
-       .home-footer{
-         height: 200px;
-         width: 100%;
-         margin: 0 auto;
-         border-top: 1px solid #EEE;
-
-         padding-top: 40px;
-         line-height: 1.6;
-         background-color: #2c3e50;
-         .footer-content{
-           width: 970px;
-           margin:0 auto;
-           height: 100%;
-           display: flex;
-           justify-content: space-around;
-           ul{
-             list-style: none;
-             font-size: 12px;
-             margin: 0 20px;
-             .ul-title{
-               font-weight: bold;
-               font-size: 14px;
-             }
-             li{
-               padding: 5px 0;
-               a{
-                 text-decoration: none;
-                 color: #d3d3d3;
-               }
-             }
-           }
-           .code-about{
-             margin-top: 20px;
-             margin-left: 50px;
-             font-size: 14px;
-             a{
-               text-decoration: none;
-               color: #e4e4e4;
+  .Home-container {
+    min-height: 100%;
+    .nav-top {
+      position: fixed;
+      top: 0;
+      z-index: 999;
+      background-color: white;
+      width: 100%;
+      .home-top {
+        height: 3px;
+        background-color: #409eff;
+      }
+      .home-header-container {
+        box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.1), 0 1px rgba(0, 0, 0, 0.1);
+        .home-header {
+          height: 64px;
+          line-height: 64px;
+          width: 1140px;
+          margin: 0 auto;
+          display: flex;
+          justify-content: space-between;
+          .header-title {
+            display: flex;
+            flex-direction: row;
+            .header-logo {
+              width: 150px;
+              height: 100%;
+              margin-top: -75px;
+              margin-right: 60px;
+              cursor: pointer;
+            }
+            .header-nav {
+              height: 100%;
+              line-height: 64px;
+              margin-left: 20px;
+              ul {
+                margin: 0;
+                list-style: none;
+                padding: 0;
               }
-           }
-         }
-       }
-     }
+              .nav-ul {
+                .li-item {
+                  display: inline-block;
+                  padding: 0 10px;
+                  color: #757575;
+                  font-size: 16px;
+                  cursor: pointer;
+                }
+                .first {
+                  color: #409eff;
+                  font-weight: bold;
+                }
+              }
+            }
+          }
+          .header-search {
+          
+          }
+          .header-user {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .user-login {
+              color: #409eff;
+              font-size: 14px;
+              cursor: pointer;
+            }
+            .user-register {
+              cursor: pointer;
+              height: 30px;
+              line-height: 30px;
+              background-color: #409eff;
+              margin-left: 20px;
+              color: #fff;
+              border-color: #008151;
+              padding: 0 13px;
+              font-size: 14px;
+              border-radius: 4px;
+            }
+          }
+        }
+      }
+    }
+    .home-svg {
+      margin-top: 64px;
+      background-color: #409eff;
+      height: 188px;
+      position: relative;
+      background-image: url("../../assets/home/banner-bg.svg");
+      display: flex;
+      justify-content: space-between;
+      padding: 0 15%;
+      .svg-info {
+        max-width: 970px;
+        margin: 40px 0 0 0;
+        .info-title {
+          padding-bottom: 20px;
+          font-size: 30px;
+          color: #fff;
+        }
+        .info-content {
+          font-size: 18px;
+          color: #fff;
+          width: 80%;
+        }
+      }
+      .svg-user {
+        display: flex;
+        flex-direction: row;
+        height: 40px;
+        margin: auto 0;
+        .user {
+          padding: 10px 16px;
+          font-size: 18px;
+          line-height: 1.33;
+          border-radius: 6px;
+          cursor: pointer;
+          box-sizing: border-box;
+          min-width: 106px;
+        }
+        .register {
+          color: #409eff;
+          background-color: white;
+          
+        }
+        .login {
+          margin-left: 20px;
+          border: 1px solid white;
+          color: white;
+        }
+      }
+      .close {
+        width: 20px;
+        height: 20px;
+        border-radius: 10px;
+        position: absolute;
+        text-align: center;
+        line-height: 18px;
+        top: 15px;
+        right: 15px;
+        cursor: pointer;
+        background-color: #2e78c1;
+        color: rgba(255, 255, 255, 0.25);
+      }
+    }
+    .home-content {
+      padding: 0 15%;
+      margin: 30px auto;
+      display: flex;
+      flex-direction: row;
+      min-height: 700px;
+      .content-nav {
+        
+        width: 15%;
+        height: 100%;
+      }
+      .content-main {
+        width: 55%;
+        height: 100%;
+        padding: 0 20px;
+      }
+      .content-recommend {
+        width: 25%;
+        height: 100%;
+        .hot-header {
+          padding: 15px 5px;
+          color: #212121;
+          font-weight: 500;
+          display: flex;
+          justify-content: space-between;
+          .hot-top {
+            color: red;
+            font-size: 13px;
+            margin-top: 5px;
+          }
+        }
+        .hot-group {
+          display: flex;
+          flex-direction: row;
+          height: 300px;
+          padding-top: 5px;
+          .hot-item {
+            width: 290px;
+            .hot-title {
+              font-size: 14px;
+            }
+            .hot-info {
+            
+            }
+          }
+          .hot-progress {
+            margin-left: 10px;
+            width: 25px;
+            height: 100%;
+            background: linear-gradient(to bottom, #f54912, #ffc8d0);
+            border-radius: 20px;
+          }
+        }
+      }
+    }
+    .home-footer {
+      height: 200px;
+      width: 100%;
+      margin: 0 auto;
+      border-top: 1px solid #eee;
+      
+      padding-top: 40px;
+      line-height: 1.6;
+      background-color: #2c3e50;
+      .footer-content {
+        width: 970px;
+        margin: 0 auto;
+        height: 100%;
+        display: flex;
+        justify-content: space-around;
+        ul {
+          list-style: none;
+          font-size: 12px;
+          margin: 0 20px;
+          .ul-title {
+            font-weight: bold;
+            font-size: 14px;
+          }
+          li {
+            padding: 5px 0;
+            a {
+              text-decoration: none;
+              color: #d3d3d3;
+            }
+          }
+        }
+        .code-about {
+          margin-top: 20px;
+          margin-left: 50px;
+          font-size: 14px;
+          a {
+            text-decoration: none;
+            color: #e4e4e4;
+          }
+        }
+      }
+    }
+    .home-to-top {
+      position: fixed;
+      width: 45px;
+      height: 45px;
+      font-size: 14px;
+      background-color: #409eff;
+      color: white;
+      font-weight: bold;
+      right: 50px;
+      bottom: 50px;
+      padding-top: 5px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .3);
+      cursor: pointer;
+      user-select: none;
+    }
+  }
 </style>
 
 <style lang="scss">
   .Home-container {
-    .header-search{
-      .el-input-group{
-          width: 80% !important;
+    .header-search {
+      .el-input-group {
+        width: 80% !important;
       }
     }
   }
