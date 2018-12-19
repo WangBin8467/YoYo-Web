@@ -24,5 +24,6 @@ export default {
   color: #2c3e50;
   box-sizing: border-box;
   height: 100%;
+  overflow-y: auto;
 }
 </style>
