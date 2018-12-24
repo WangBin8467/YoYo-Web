@@ -6,6 +6,8 @@
 */
 <template>
   <div class="Home-container">
+    
+    <!--首页导航 start-->
     <div class="nav-top">
       <div class="home-top"></div>
       <div class="home-header-container">
@@ -43,6 +45,9 @@
         </div>
       </div>
     </div>
+    <!--首页导航 end-->
+    
+    <!--介绍transiton start-->
     <transition name="el-zoom-in-top">
       <div class="home-svg" v-if="!isLogin&&showSvg">
         <div class="svg-info">
@@ -66,6 +71,9 @@
         </div>
       </div>
     </transition>
+    <!--介绍transiton end-->
+    
+    <!--首页content start-->
     <div class="home-content">
       <div class="content-nav">
         <el-menu :default-active="activeName" router>
@@ -117,6 +125,9 @@
         </div>
       </div>
     </div>
+    <!--首页content end-->
+    
+    <!--底部 start-->
     <div class="home-footer">
       <div class="footer-content">
         <ul>
@@ -146,9 +157,15 @@
         </div>
       </div>
     </div>
+    <!--底部 end-->
+    
+    <!--回到顶部 start-->
     <div class="home-to-top" @click="scrollTop">
       返回<br/>顶部
     </div>
+    <!--回到顶部 end-->
+    
+    <!--登录注册弹窗 start-->
     <div class="user-dialog">
       <el-dialog :visible.sync="showDialog"
                  :title="activeTab==='login'?'用户登录':'用户注册'"
@@ -179,7 +196,7 @@
                 @click="activeTab='register'">立即注册</span>
               </div>
               <div class="form-btn">
-                <el-button @click="showDialog=false"
+                <el-button @click="closeDialog"
                            type="danger">取消</el-button>
                 <el-button type="primary"
                            @click="login">登录</el-button>
@@ -231,7 +248,7 @@
                 </el-input>
               </el-form-item>
               <div class="form-btn">
-                <el-button @click="showDialog=false"
+                <el-button @click="closeDialog"
                            type="danger">取消</el-button>
                 <el-button type="primary"
                            @click="register">注册</el-button>
@@ -241,6 +258,7 @@
         </el-tabs>
       </el-dialog>
     </div>
+    <!--登录注册弹窗 end-->
   </div>
 </template>
 
@@ -362,16 +380,9 @@
       },
       validateForm() {
         let pass = true;
-        Object.values(this.$refs)
-          .forEach((ref) => {
-            if (ref) {
-              ref.validate((valid) => {
-                if (!valid) {
-                  pass = false;
-                }
-              });
-            }
-          });
+        if(!this.$refs){
+          pass=false;
+        }
         if (!pass) {
           this.$message.error('信息输入错误!');
         }
@@ -380,16 +391,20 @@
       login(){
         let pass=this.validateForm();
         if(pass){
-
+        
         }
       },
       register(){
         let pass=this.validateForm();
-        console.log(pass)
         if(pass){
-
+        
         }
 
+      },
+      closeDialog(){
+        this.showDialog=false;
+        this.loginForm={};
+        this.registerForm={};
       }
     },
   };
