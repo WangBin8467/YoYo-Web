@@ -31,7 +31,9 @@
                       placeholder="请输入内容"
                       size="medium"
                       clearable>
-              <el-button slot="append" icon="el-icon-search"></el-button>
+              <el-button slot="append"
+                         icon="el-icon-search"
+                         @click="search"></el-button>
             </el-input>
           </div>
           <div class="header-user">
@@ -273,7 +275,7 @@
       Lunbo,
     },
     data() {
-      var validatePass = (rule, value, callback) => {
+      let validatePass = (rule, value, callback) => {
         if (value === ''||value.length <6) {
           callback(new Error('密码不得小于6位字符'));
         } else {
@@ -283,7 +285,7 @@
           callback();
         }
       };
-      var validatePass2 = (rule, value, callback) => {
+      let validatePass2 = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请再次输入密码'));
         } else if (value !== this.registerForm.password) {
@@ -297,8 +299,8 @@
         isLogin: false,
         showSvg: true,
         activeName: 'NewsItem',
-        showDialog: true,
-        activeTab: 'register',
+        showDialog: false,
+        activeTab: 'login',
         loginForm:{
           name:'',
           password:''
@@ -405,7 +407,11 @@
         this.showDialog=false;
         this.loginForm={};
         this.registerForm={};
-      }
+      },
+      search: _.debounce(function () {
+        console.clear();
+        console.log(this.searchValue)
+      },300),
     },
   };
 </script>
