@@ -76,9 +76,11 @@
     <!--介绍transiton end-->
     
     <!--首页content start-->
-    <div class="home-content">
+    <div class="home-content"
+         :class="{'svg-top':showSvg}">
       <div class="content-nav">
-        <el-menu :default-active="activeName" router>
+        <el-menu :default-active="activeIndex"
+                 router>
           <el-menu-item index="NewsItem">
             <i class="el-icon-menu"></i>
             <span slot="title">为你推荐</span>
@@ -298,7 +300,6 @@
         searchValue: '',
         isLogin: false,
         showSvg: true,
-        activeName: 'NewsItem',
         showDialog: false,
         activeTab: 'login',
         loginForm:{
@@ -363,7 +364,12 @@
         ],
       };
     },
-    computed: {},
+    computed: {
+      activeIndex() {
+        const paths = this.$route.path.split('/');
+        return paths[paths.length - 1];
+      },
+    },
     created() {
     },
     mounted() {
@@ -564,12 +570,11 @@
     }
     .home-content {
       padding: 0 15%;
-      margin: 30px auto;
+      margin: 100px auto;
       display: flex;
       flex-direction: row;
       min-height: 700px;
       .content-nav {
-
         width: 15%;
         height: 100%;
       }
@@ -616,6 +621,9 @@
           }
         }
       }
+    }
+    .svg-top{
+      margin-top: 30px;
     }
     .home-footer {
       height: 200px;

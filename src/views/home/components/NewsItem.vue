@@ -116,8 +116,8 @@
          margin-top: 15px;
          border-bottom: 1px solid #f6f6f6;
          padding: 10px 0 30px;
-         cursor: pointer;
          .new-title{
+           cursor: pointer;
            color: #212121;
            font-weight: 500;
            font-size: 18px;
