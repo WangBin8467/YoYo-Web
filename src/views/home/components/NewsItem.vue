@@ -12,7 +12,8 @@
     <div v-for="(item,index) in data"
          :key="item.id"
          class="new-item">
-      <div class="new-title">{{item.title}}</div>
+      <div class="new-title"
+           @click="toNewsDetail(item.id)">{{item.title}}</div>
       <div class="new-content">{{item.content}}</div>
       <div class="new-author">
         <a>{{item.author}}</a>
@@ -97,7 +98,11 @@
     },
     mounted() {
     },
-    methods: {},
+    methods: {
+      toNewsDetail(id){
+        this.$router.push({path:`news/id/${id}`});
+      }
+    },
   };
 </script>
 
