@@ -11,8 +11,8 @@
     <div class="home-content">
       <div class="content-nav">
         <el-menu :default-active="activeIndex"
-                 router>
-          <el-menu-item index="NewsItem">
+                 :router="true">
+          <el-menu-item index="News">
             <i class="el-icon-menu"></i>
             <span slot="title">为你推荐</span>
           </el-menu-item>
@@ -81,7 +81,9 @@
     },
     computed: {
       activeIndex() {
+     
         const paths = this.$route.path.split('/');
+
         return paths[paths.length - 1];
       },
     },
@@ -99,7 +101,7 @@
     min-height: 100%;
     .home-content {
       padding: 0 15%;
-      margin: 100px auto;
+      margin: 30px auto;
       display: flex;
       flex-direction: row;
       min-height: 700px;

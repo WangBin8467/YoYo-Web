@@ -9,7 +9,6 @@
     <AppHeader></AppHeader>
     <div class="main-container">
       <slot></slot>
-      
       <!--回到顶部 start-->
       <div class="home-to-top" @click="scrollTop">
         返回<br/>顶部
@@ -53,7 +52,6 @@
      .BaseLayout-container{
        height: 100%;
         .main-container{
-          min-height: 100%;
           .home-to-top {
             position: fixed;
             width: 45px;

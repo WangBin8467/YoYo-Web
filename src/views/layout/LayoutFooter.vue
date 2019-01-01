@@ -89,6 +89,9 @@
                  text-decoration: none;
                  color: #d3d3d3;
                }
+               a:hover{
+                 color: #f5f7fa;
+               }
              }
            }
            .code-about {
@@ -98,6 +101,9 @@
              a {
                text-decoration: none;
                color: #e4e4e4;
+               i:hover{
+                 color: #409eff;
+               }
              }
            }
          }

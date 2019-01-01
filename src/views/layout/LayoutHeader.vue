@@ -172,6 +172,7 @@
 </template>
 
 <script>
+  
   export default {
     name: 'LayoutHeader',
     props: {},
@@ -317,7 +318,6 @@
 
 <style lang="scss" scoped>
      .LayoutHeader-container{
-       min-height: 100%;
        .nav-top {
          position: fixed;
          top: 0;
@@ -395,6 +395,12 @@
                  font-size: 14px;
                  border-radius: 4px;
                }
+               .user-login:hover{
+                 color: #167fea;
+               }
+               .user-register:hover{
+                 background-color: #167fea;
+               }
              }
            }
          }
@@ -445,6 +451,12 @@
              margin-left: 20px;
              border: 1px solid white;
              color: white;
+           }
+           .register:hover{
+             background-color: lightgray;
+           }
+           .login:hover{
+             background-color: #2e78c1;
            }
          }
          .close {
