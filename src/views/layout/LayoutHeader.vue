@@ -12,12 +12,13 @@
       <div class="home-header-container">
         <div class="home-header">
           <div class="header-title">
-            <div class="header-logo">
+            <div class="header-logo" @click="toHome">
               <img src="../../assets/home/yoyo-logo.png">
             </div>
             <div class="header-nav">
               <ul class="nav-ul">
-                <li class="li-item first">首页</li>
+                <li class="li-item first"
+                    @click="toHome">首页</li>
                 <li class="li-item">问答</li>
                 <li class="li-item">专栏</li>
                 <li class="li-item">讲堂</li>
@@ -272,6 +273,9 @@
     mounted() {
     },
     methods: {
+      toHome(){
+        this.$router.push({path:'/Home'});
+      },
       openDialog(type) {
         this.showDialog = true;
         if (type === 'register') {

@@ -6,44 +6,66 @@
 */
 <template>
   <div class="newsDetail-container">
-  <div class="news-main">
-    <div class="news-title">
-      {{newsData.name}}
+    <div class="news-main">
+      <div class="news-title">
+        {{newsData.name}}
+      </div>
+      <div class="news-info">
+        <span class="info-createTime">{{newsData.createTime}}</span>
+        <span class="info-author">{{newsData.author}}</span>
+      </div>
+      <div class="news-content">
+        <p>{{newsData.content}}</p>
+      </div>
     </div>
-    <div class="news-info">
-      <span class="info-createTime">{{newsData.createTime}}</span>
-      <span class="info-author">{{newsData.author}}</span>
-    </div>
-    <div class="news-content">
-      <p>{{newsData.content}}</p>
-    </div>
-  </div>
-  <div class="news-comment">
-    <div class="comment-input">
-      <transition name="fade">
-        <div class="input-wrapper">
-          <el-input class="gray-bg-input"
-                    v-model="commentValue"
-                    type="textarea"
-                    :rows="3"
-                    autofocus
-                    placeholder="写下你的评论">
-          </el-input>
-          <div class="btn-control">
-                <span class="cancel"
-                      @click="commentValue=''">重置</span>
-            <el-button class="btn"
-                       type="success"
-                       round
-                       @click="submitComment">确定</el-button>
+    <div class="news-comment">
+      <div class="comment-input">
+        <transition name="fade">
+          <div class="input-wrapper">
+            <el-input class="gray-bg-input"
+                      v-model="commentValue"
+                      type="textarea"
+                      :rows="3"
+                      autofocus
+                      placeholder="写下你的评论">
+            </el-input>
+            <div class="btn-control">
+                  <span class="cancel"
+                        @click="commentValue=''">重置</span>
+              <el-button class="btn"
+                         type="success"
+                         round
+                         @click="submitComment">确定</el-button>
+            </div>
           </div>
-        </div>
-      </transition>
+        </transition>
+      </div>
+      <div class="comment-main">
+        <NewsComment :comments="commentData"></NewsComment>
+      </div>
     </div>
-    <div class="comment-main">
-      <NewsComment :comments="commentData"></NewsComment>
+    <div class="news-author">
+      <el-card shadow="always">
+        <div class="author-sup"></div>
+       <div class="author-name">
+         <div>
+           <span>{{authorData.name}}&nbsp;</span>
+           <span>
+             <i v-if="authorData.sex===0"
+                class="fa fa-mars boyIcon"></i>
+             <i v-else
+                class="fa fa-mercury girlIcon"></i>
+           </span>&nbsp;&nbsp;
+           <span class="author-degree">{{authorData.degree}}</span>
+         </div>
+         <span><i class="fa fa-heart-o focus"></i></span>
+       </div>
+       <div class="author-info">
+         <span v-if="authorData.remark.length>0">{{authorData.remark}}</span>
+         <span v-else>这个人什么也没留下~</span>
+       </div>
+      </el-card>
     </div>
-  </div>
   </div>
 </template>
 
@@ -120,7 +142,13 @@
             content: '从没见过这么优秀的人',
             reply: []
           }
-        ]
+        ],
+        authorData:{
+          name:'Groot',
+          degree:'大三',
+          sex:0,
+          remark:'',
+        }
       };
     },
     computed: {},
@@ -139,9 +167,10 @@
 
 <style lang="scss" scoped>
      .newsDetail-container{
-       width: 860px;
+       width: 750px;
        margin: 0 auto;
        padding: 10px 0;
+       position: relative;
        .news-main{
          margin: 20px 0;
          .news-title{
@@ -170,6 +199,8 @@
            padding: 0 20px;
            margin-top: 20px;
            line-height: 1.5;
+           width: 80%;
+           color: darkslategray;
          }
        }
        .news-comment{
@@ -206,6 +237,58 @@
          }
          .comment-main{
            margin: 40px 0;
+         }
+       }
+       .news-author{
+         position: absolute;
+         top:40px;
+         right: -260px;
+         width: 260px;
+         height: 320px;
+         background-color: white;
+         .author-sup{
+           position: absolute;
+           left: 0;
+           top: 0;
+           width: 40px;
+           height: 40px;
+           background: linear-gradient(135deg, #1996ff 50%, transparent 50%);
+           text-align: right;
+         }
+        .author-name{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-weight: bold;
+          color: #4e4e4e;
+          .boyIcon{
+            font-size: 18px;
+            color: #409EFF;
+          }
+          .girlIcon{
+            font-size: 18px;
+            color: #ff90b7;
+          }
+          .focus{
+            color: #F56C6C;
+            font-size: 18px;
+            cursor: pointer;
+          }
+          .focus:hover{
+            color: red;
+          }
+          .author-degree{
+            background-color:#E6A23C;
+            border-radius: 4px;
+            text-align: center;
+            padding: 2px 5px;
+            color: white;
+            font-size: 12px;
+          }
+        }
+         .author-info{
+           padding: 30px 5px 0;
+           color: #919191;
          }
        }
      }
