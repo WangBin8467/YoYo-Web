@@ -5,7 +5,7 @@
 * Date: 2018-12-27 21:50
 */
 <template>
-  <div class="LayoutHeader-container">
+  <div :class="['LayoutHeader-container',{'hiddenSvg':isLogin||!showSvg}]">
     <!--首页导航 start-->
     <div class="nav-top">
       <div class="home-top"></div>
@@ -36,12 +36,24 @@
                          @click="search"></el-button>
             </el-input>
           </div>
-          <div class="header-user">
+          <div class="header-user" v-if="!isLogin">
             <div class="user-login" @click="openDialog('login')">
               立即登录
             </div>
             <div class="user-register" @click="openDialog('register')">
               免费注册
+            </div>
+          </div>
+          <div v-else>
+            <div class="user-img"
+                 @click="showCenter=!showCenter">
+            
+            </div>
+            <div style="margin-top: 20px; height: 200px;">
+              <transition name="el-zoom-in-top">
+                <div v-show="showCenter"
+                     class="transition-box">.el-zoom-in-top</div>
+              </transition>
             </div>
           </div>
         </div>
@@ -173,6 +185,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   
   export default {
     name: 'LayoutHeader',
@@ -201,7 +214,7 @@
       };
       return {
         searchValue: '',
-        isLogin: false,
+        isLogin: true,
         showSvg: true,
         showDialog: false,
         activeTab: 'login',
@@ -265,6 +278,7 @@
             label:'未知',
           },
         ],
+        showCenter:false,
       };
     },
     computed: {},
@@ -297,7 +311,10 @@
       login(){
         let pass=this.validateForm();
         if(pass){
-
+            axios.post('/users/login',{...this.loginForm}).then(res=>{
+              console.clear();
+              console.log(res);
+            })
         }
       },
       register(){
@@ -321,7 +338,7 @@
 </script>
 
 <style lang="scss" scoped>
-     .LayoutHeader-container{
+  .LayoutHeader-container{
        .nav-top {
          position: fixed;
          top: 0;
@@ -405,6 +422,26 @@
                .user-register:hover{
                  background-color: #167fea;
                }
+             }
+             .user-img{
+               margin-right: 50px;
+               margin-top: 15px;
+               width: 35px;
+               height: 35px;
+               border-radius: 20px;
+               background-color: lightgray;
+               cursor: pointer;
+             }
+             .user-img:hover{
+               border:2px solid #409eff;
+             }
+             .transition-box{
+               margin-bottom: 10px;
+               margin-left: -20px;
+               width: 80px;
+               height: 100px;
+               border-radius: 4px;
+               background-color: #409eff;
              }
            }
          }
@@ -491,6 +528,9 @@
          }
        }
      }
+  .hiddenSvg{
+    margin-bottom: 100px !important;
+  }
 </style>
 
 <style lang="scss">

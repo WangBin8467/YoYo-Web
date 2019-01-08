@@ -12,7 +12,7 @@
       <div class="content-nav">
         <el-menu :default-active="activeIndex"
                  :router="true">
-          <el-menu-item index="News">
+          <el-menu-item index="/">
             <i class="el-icon-menu"></i>
             <span slot="title">为你推荐</span>
           </el-menu-item>
@@ -81,7 +81,8 @@
     },
     computed: {
       activeIndex() {
-     
+        console.clear();
+        console.log(this.$route)
         const paths = this.$route.path.split('/');
 
         return paths[paths.length - 1];

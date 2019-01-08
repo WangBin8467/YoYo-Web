@@ -16,12 +16,9 @@ export default new Router({
       component: Home,
       children:[
         {
-          path:'News',
+          path:'/',
           name:'NewsItem',
           component:NewsItem,
-          meta:{
-            title:'为你推荐'
-          }
         },
       ]
     },
