@@ -81,8 +81,6 @@
     },
     computed: {
       activeIndex() {
-        console.clear();
-        console.log(this.$route)
         const paths = this.$route.path.split('/');
 
         return paths[paths.length - 1];

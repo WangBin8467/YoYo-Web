@@ -45,16 +45,20 @@
             </div>
           </div>
           <div v-else>
-            <div class="user-img"
-                 @click="showCenter=!showCenter">
-            
-            </div>
-            <div style="margin-top: 20px; height: 200px;">
-              <transition name="el-zoom-in-top">
-                <div v-show="showCenter"
-                     class="transition-box">.el-zoom-in-top</div>
-              </transition>
-            </div>
+            <el-dropdown>
+              <div class="user-img">
+                <img src="../../assets/home/头像 男孩.png"
+                     height="35px"
+                     width="35px">
+              </div>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item>个人中心</el-dropdown-item>
+                <el-dropdown-item>我赞过的</el-dropdown-item>
+                <el-dropdown-item>我的帖子</el-dropdown-item>
+                <el-dropdown-item style="color: #F56C6C"
+                                  @click.native="loginOut">注销</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </div>
         </div>
       </div>
@@ -108,6 +112,7 @@
               </el-form-item>
               <el-form-item prop="password">
                 <el-input v-model="loginForm.password"
+                          type="password"
                           placeholder="请输入密码">
                   <template slot="prepend"><i class="fa fa-lock"></i> </template>
                 </el-input>
@@ -185,7 +190,17 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  import axios from 'axios';
+  import { mapState } from 'vuex'
+  
+  const user={
+    name:'',
+    mobile: '',
+    sex:'',
+    age:'',
+    degree:'',
+    remark:''
+  }
   
   export default {
     name: 'LayoutHeader',
@@ -214,7 +229,7 @@
       };
       return {
         searchValue: '',
-        isLogin: true,
+        isLogin: false,
         showSvg: true,
         showDialog: false,
         activeTab: 'login',
@@ -281,10 +296,17 @@
         showCenter:false,
       };
     },
-    computed: {},
+    computed: {
+      ...mapState(['user']),
+
+      user(){
+        return this.$store.state.user||user;
+      },
+    },
     created() {
     },
     mounted() {
+      this.checkLogin();
     },
     methods: {
       toHome(){
@@ -298,7 +320,7 @@
           this.activeTab = 'login';
         }
       },
-      validateForm() {
+      validateForm(type) {
         let pass = true;
         if(!this.$refs){
           pass=false;
@@ -308,30 +330,62 @@
         }
         return pass;
       },
+      checkLogin(){
+        if(this.user._id){
+          this.isLogin=true;
+        }
+      },
       login(){
-        let pass=this.validateForm();
+        let pass=this.loginForm.name.length>0&&this.loginForm.password.length>0;
         if(pass){
             axios.post('/users/login',{...this.loginForm}).then(res=>{
-              console.clear();
-              console.log(res);
+              if(res.data.code===200){
+                this.showDialog=false;
+                this.isLogin=true;
+                this.user=res.data.result.user;
+                this.$store.commit('userLogin',this.user);
+                this.$message({
+                  message: '登录成功！',
+                  type: 'success',
+                });
+              }else{
+                this.$message.error(res.data.msg)
+              }
+            }).catch(err=>{
+              this.$message.error(err.msg)
             })
+        }else{
+          this.$message.error('请输入正确的账号密码');
         }
       },
       register(){
         let pass=this.validateForm();
         if(pass){
-
+          axios.post('/users/register',{...this.loginForm}).then(res=>{
+            console.clear();
+            console.log(res);
+            if(res.data.code===200){
+              console.log('121212');
+            }
+          })
         }
-
       },
       closeDialog(){
         this.showDialog=false;
         this.loginForm={};
         this.registerForm={};
       },
+      loginOut(){
+        axios.post('/users/loginOut').then(res=>{
+          if(res.data.code===200){
+            this.isLogin=false;
+            this.user={};
+            this.$store.commit('userLogin',this.user);
+            this.$message.error('注销成功！');
+          }
+        })
+      },
       search: _.debounce(function () {
-        console.clear();
-        console.log(this.searchValue)
       },300),
     },
   };
@@ -376,6 +430,13 @@
                    margin: 0;
                    list-style: none;
                    padding: 0;
+                   li{
+                     transition: 1s ease;
+                   }
+                   li:hover{
+                     transform: translate(0, -10px);
+                     box-shadow: 0 10px 20px -10px #6a6a6a;
+                   }
                  }
                  .nav-ul {
                    .li-item {
@@ -424,16 +485,16 @@
                }
              }
              .user-img{
-               margin-right: 50px;
-               margin-top: 15px;
+               margin: 15px 30px 0;
                width: 35px;
                height: 35px;
                border-radius: 20px;
                background-color: lightgray;
                cursor: pointer;
+               transition: 1s ease;
              }
              .user-img:hover{
-               border:2px solid #409eff;
+               transform: translate(0, -5px);
              }
              .transition-box{
                margin-bottom: 10px;

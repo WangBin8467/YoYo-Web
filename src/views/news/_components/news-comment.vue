@@ -86,7 +86,6 @@
     },
     computed: {},
     created() {
-      console.log(this.comments)
     },
     mounted() {},
     methods: {
