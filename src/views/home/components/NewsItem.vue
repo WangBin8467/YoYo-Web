@@ -18,12 +18,14 @@
       <div class="new-author">
         <a>{{item.author}}</a>
       </div>
-      <div class="new-time">{{item.time}}</div>
+      <div class="new-time">{{item.createTime}}</div>
     </div>
   </div>
 </template>
 
 <script>
+  import axios from 'axios';
+  
   export default {
     name: 'NewsItem',
     props: {
@@ -33,74 +35,28 @@
     components: {},
     data() {
       return {
-        data:[
-          {
-            id:1,
-            title:'学长考研资料便宜出啦~',
-            content:'考研结束，学长所用的考研资料便宜考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的出，还附赠学长自己所做的考研笔记，觉得物超所值，准备考研的学弟学妹们还在等什么，和我联系吧！',
-            time:'2019.3.20',
-            author:'groot'
-          },
-          {
-            id:2,
-            title:'学长考研资料便宜出啦~',
-            content:'考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研笔记，觉得物超所值，准备考研的学弟学妹们还在等什么，和我联系吧！',
-            time:'2019.3.20',
-            author:'groot'
-          },
-          {
-            id:3,
-            title:'学长考研资料便宜出啦~',
-            content:'考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研笔记，觉得物超所值，准备考研的学弟学妹们还在等什么，和我联系吧！',
-            time:'2019.3.20',
-            author:'groot'
-          },
-          {
-            id:4,
-            title:'学长考研资料便宜出啦~',
-            content:'考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研笔记，觉得物超所值，准备考研的学弟学妹们还在等什么，和我联系吧！',
-            time:'2019.3.20',
-            author:'groot'
-          },
-          {
-            id:5,
-            title:'学长考研资料便宜出啦~',
-            content:'考研结束，学长所用的考研资料便宜考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的出，还附赠学长自己所做的考研笔记，觉得物超所值，准备考研的学弟学妹们还在等什么，和我联系吧！',
-            time:'2019.3.20',
-            author:'groot'
-          },
-          {
-            id:6,
-            title:'学长考研资料便宜出啦~',
-            content:'考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研笔记，觉得物超所值，准备考研的学弟学妹们还在等什么，和我联系吧！',
-            time:'2019.3.20',
-            author:'groot'
-          },
-          {
-            id:7,
-            title:'学长考研资料便宜出啦~',
-            content:'考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研笔记，觉得物超所值，准备考研的学弟学妹们还在等什么，和我联系吧！',
-            time:'2019.3.20',
-            author:'groot'
-          },
-          {
-            id:8,
-            title:'学长考研资料便宜出啦~',
-            content:'考研结束，学长所用的考研资料便宜出，还附赠学长自己所做的考研笔记，觉得物超所值，准备考研的学弟学妹们还在等什么，和我联系吧！',
-            time:'2019.3.20',
-            author:'groot'
-          },
-        ]
+        data:[],
+        filterForm:{
+          sort:-1,
+          page:1,
+          pageSize:5,
+        }
       };
     },
     computed: {},
     created() {
     },
     mounted() {
+      this.getNewsList();
     },
     methods: {
       toNewsDetail(id){
         this.$router.push({path:`news/id/${id}`});
+      },
+      getNewsList(){
+        axios.get('api/news/getNewsList',{...this.filterForm}).then(res=>{
+          this.data=res.data.result.data;
+        })
       }
     },
   };

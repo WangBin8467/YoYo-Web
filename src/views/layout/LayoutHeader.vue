@@ -47,9 +47,10 @@
           <div v-else>
             <el-dropdown>
               <div class="user-img">
-                <img src="../../assets/home/头像 男孩.png"
-                     height="35px"
-                     width="35px">
+                <img  v-if="+user.sex===0"
+                      src="../../assets/home/头像 男孩.png">
+                <img  v-else
+                      src="../../assets/home/头像 女孩.png">
               </div>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>个人中心</el-dropdown-item>
@@ -193,14 +194,6 @@
   import axios from 'axios';
   import { mapState } from 'vuex'
   
-  const user={
-    name:'',
-    mobile: '',
-    sex:'',
-    age:'',
-    degree:'',
-    remark:''
-  }
   
   export default {
     name: 'LayoutHeader',
@@ -231,11 +224,11 @@
         searchValue: '',
         isLogin: false,
         showSvg: true,
-        showDialog: false,
+        showDialog: true,
         activeTab: 'login',
         loginForm:{
-          name:'',
-          password:''
+          name:'admin',
+          password:'123456'
         },
         loginRules:{
           name:{
@@ -298,10 +291,6 @@
     },
     computed: {
       ...mapState(['user']),
-
-      user(){
-        return this.$store.state.user||user;
-      },
     },
     created() {
     },
@@ -338,12 +327,11 @@
       login(){
         let pass=this.loginForm.name.length>0&&this.loginForm.password.length>0;
         if(pass){
-            axios.post('/users/login',{...this.loginForm}).then(res=>{
+            axios.post('/api/users/login',{...this.loginForm}).then(res=>{
               if(res.data.code===200){
                 this.showDialog=false;
                 this.isLogin=true;
-                this.user=res.data.result.user;
-                this.$store.commit('userLogin',this.user);
+                this.$store.commit('userLogin',res.data.result.user);
                 this.$message({
                   message: '登录成功！',
                   type: 'success',
@@ -361,12 +349,19 @@
       register(){
         let pass=this.validateForm();
         if(pass){
-          axios.post('/users/register',{...this.loginForm}).then(res=>{
-            console.clear();
-            console.log(res);
+          axios.post('/api/users/register',{...this.registerForm}).then(res=>{
             if(res.data.code===200){
-              console.log('121212');
+              this.$message({
+                type:'success',
+                message:'注册成功!'
+              })
+              this.showDialog=false;
+              this.$store.commit('userLogin',res.data.result.user);
+            }else{
+              this.$message.error(res.data.msg)
             }
+          }).catch(err=>{
+            this.$message.error(err.msg)
           })
         }
       },
@@ -376,7 +371,7 @@
         this.registerForm={};
       },
       loginOut(){
-        axios.post('/users/loginOut').then(res=>{
+        axios.post('/api/users/loginOut').then(res=>{
           if(res.data.code===200){
             this.isLogin=false;
             this.user={};
@@ -492,6 +487,10 @@
                background-color: lightgray;
                cursor: pointer;
                transition: 1s ease;
+               img{
+                 height:35px;
+                 width:35px;
+               }
              }
              .user-img:hover{
                transform: translate(0, -5px);
