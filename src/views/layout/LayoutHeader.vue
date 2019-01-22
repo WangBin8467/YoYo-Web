@@ -36,30 +36,40 @@
                          @click="search"></el-button>
             </el-input>
           </div>
-          <div class="header-user" v-if="!isLogin">
-            <div class="user-login" @click="openDialog('login')">
-              立即登录
+          <div class="header-user">
+            <div class="user-news">
+              <el-button size="small"
+                         type="primary"
+                         icon="el-icon-edit"
+                         circle
+                         @click="toAddNews"></el-button>
             </div>
-            <div class="user-register" @click="openDialog('register')">
-              免费注册
-            </div>
-          </div>
-          <div v-else>
-            <el-dropdown>
-              <div class="user-img">
-                <img  v-if="+user.sex===0"
-                      src="../../assets/home/头像 男孩.png">
-                <img  v-else
-                      src="../../assets/home/头像 女孩.png">
+            <div v-if="!isLogin"
+                 class="user-btn" >
+              <div class="user-login" @click="openDialog('login')">
+                立即登录
               </div>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>个人中心</el-dropdown-item>
-                <el-dropdown-item>我赞过的</el-dropdown-item>
-                <el-dropdown-item>我的帖子</el-dropdown-item>
-                <el-dropdown-item style="color: #F56C6C"
-                                  @click.native="loginOut">注销</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
+              <div class="user-register" @click="openDialog('register')">
+                免费注册
+              </div>
+            </div>
+            <div v-else>
+              <el-dropdown>
+                <div class="user-img">
+                  <img  v-if="+user.sex===0"
+                        src="../../assets/home/头像 男孩.png">
+                  <img  v-else
+                        src="../../assets/home/头像 女孩.png">
+                </div>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>个人中心</el-dropdown-item>
+                  <el-dropdown-item>我赞过的</el-dropdown-item>
+                  <el-dropdown-item>我的帖子</el-dropdown-item>
+                  <el-dropdown-item style="color: #F56C6C"
+                                    @click.native="loginOut">注销</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
           </div>
         </div>
       </div>
@@ -224,7 +234,7 @@
         searchValue: '',
         isLogin: false,
         showSvg: true,
-        showDialog: true,
+        showDialog: false,
         activeTab: 'login',
         loginForm:{
           name:'admin',
@@ -382,6 +392,9 @@
       },
       search: _.debounce(function () {
       },300),
+      toAddNews(){
+        this.$router.push({path:'/News/add'})
+      }
     },
   };
 </script>
@@ -451,50 +464,66 @@
              .header-search {
           
              }
-             .header-user {
+             .header-user{
                display: flex;
                flex-direction: row;
                align-items: center;
-               .user-login {
+               .user-news{
+                 padding-right: 25px;
+                 border-right: 3px solid #409eff;
+                 font-size: 14px;
+                 line-height: 20px;
                  color: #409eff;
-                 font-size: 14px;
                  cursor: pointer;
+                 font-weight: bold;
                }
-               .user-register {
+               .user-btn {
+                 margin-left: 15px;
+                 display: flex;
+                 flex-direction: row;
+                 align-items: center;
+                 .user-login {
+                   color: #409eff;
+                   font-size: 14px;
+                   cursor: pointer;
+                 }
+                 .user-register {
+                   cursor: pointer;
+                   height: 30px;
+                   line-height: 30px;
+                   background-color: #409eff;
+                   margin-left: 20px;
+                   color: #fff;
+                   border-color: #008151;
+                   padding: 0 13px;
+                   font-size: 14px;
+                   border-radius: 4px;
+                 }
+                 .user-login:hover{
+                   color: #167fea;
+                 }
+                 .user-register:hover{
+                   background-color: #167fea;
+                 }
+               }
+               .user-img{
+                 margin: 15px 40px 0;
+                 width: 35px;
+                 height: 35px;
+                 border-radius: 20px;
+                 background-color: lightgray;
                  cursor: pointer;
-                 height: 30px;
-                 line-height: 30px;
-                 background-color: #409eff;
-                 margin-left: 20px;
-                 color: #fff;
-                 border-color: #008151;
-                 padding: 0 13px;
-                 font-size: 14px;
-                 border-radius: 4px;
+                 transition: 1s ease;
+                 img{
+                   height:35px;
+                   width:35px;
+                 }
                }
-               .user-login:hover{
-                 color: #167fea;
-               }
-               .user-register:hover{
-                 background-color: #167fea;
+               .user-img:hover{
+                 transform: translate(0, -5px);
                }
              }
-             .user-img{
-               margin: 15px 30px 0;
-               width: 35px;
-               height: 35px;
-               border-radius: 20px;
-               background-color: lightgray;
-               cursor: pointer;
-               transition: 1s ease;
-               img{
-                 height:35px;
-                 width:35px;
-               }
-             }
-             .user-img:hover{
-               transform: translate(0, -5px);
-             }
+             
              .transition-box{
                margin-bottom: 10px;
                margin-left: -20px;
