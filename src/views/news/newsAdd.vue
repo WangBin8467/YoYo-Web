@@ -10,8 +10,8 @@
              :model="form"
              :rules="rules"
              label-width="80px">
-      <el-form-item label="标题" prop="title">
-        <el-input v-model="form.title"
+      <el-form-item label="标题" prop="name">
+        <el-input v-model="form.name"
                   placeholder="请输入标题..."></el-input>
       </el-form-item>
       <el-form-item label="分类">
@@ -43,6 +43,7 @@
 <script>
   import { quillEditor } from 'vue-quill-editor'
   import { mapState } from 'vuex'
+  import axios from 'axios';
   
   export default {
     name: 'newsAdd',
@@ -56,7 +57,7 @@
         content:'',
         editorOption:{},
         rules:{
-          title: [
+          name: [
             { required: true, message: '请输入标题', trigger: 'blur' },
           ],
           content: [
@@ -64,7 +65,7 @@
           ],
         },
         form:{
-          title:'',
+          name:'',
           type:1,
           content:''
         }
@@ -92,9 +93,22 @@
         // console.log(this.form.content);
       },
       onSubmit(){
-        if(this.form.title.length&&this.form.content.length){
+        if(this.form.name.length&&this.form.content.length){
           if (this.isLogin){
-          
+            axios.post('api/news/addNews',{
+              ...this.form,
+              uid:this.user._id
+            }).then(res=>{
+              if(res.data.code===200){
+                this.$message({
+                  type:'success',
+                  message:'发布成功!'
+                })
+                this.form={};
+              }else{
+                this.$message.error(res.data.msg)
+              }
+            })
           }else{
             this.$store.commit('handleDialog',true)
           }
