@@ -38,11 +38,16 @@
           </div>
           <div class="header-user">
             <div class="user-news">
-              <el-button size="small"
-                         type="primary"
-                         icon="el-icon-edit"
-                         circle
-                         @click="toAddNews"></el-button>
+              <el-tooltip class="item"
+                          effect="dark"
+                          content="发帖"
+                          placement="bottom">
+                <el-button size="small"
+                           type="primary"
+                           icon="el-icon-edit"
+                           circle
+                           @click="toAddNews"></el-button>
+              </el-tooltip>
             </div>
             <div v-if="!isLogin"
                  class="user-btn" >
@@ -53,8 +58,7 @@
                 免费注册
               </div>
             </div>
-            <div v-else>
-              <el-dropdown>
+            <el-dropdown v-else>
                 <div class="user-img">
                   <img  v-if="+user.sex===0"
                         src="../../assets/home/头像 男孩.png">
@@ -69,7 +73,6 @@
                                     @click.native="loginOut">注销</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
-            </div>
           </div>
         </div>
       </div>
@@ -104,7 +107,9 @@
   
     <!--登录注册弹窗 start-->
     <div class="user-dialog">
-      <el-dialog :visible.sync="showDialog"
+      <el-dialog :visible.sync="showUserDialog"
+                 :close-on-click-modal="false"
+                 :show-close="false"
                  :title="activeTab==='login'?'用户登录':'用户注册'"
                  width=600px
                  center>
@@ -232,9 +237,7 @@
       };
       return {
         searchValue: '',
-        isLogin: false,
         showSvg: true,
-        showDialog: false,
         activeTab: 'login',
         loginForm:{
           name:'admin',
@@ -300,19 +303,17 @@
       };
     },
     computed: {
-      ...mapState(['user']),
+      ...mapState(['user','showUserDialog','isLogin']),
     },
     created() {
     },
-    mounted() {
-      this.checkLogin();
-    },
+    mounted() {},
     methods: {
       toHome(){
         this.$router.push({path:'/Home'});
       },
       openDialog(type) {
-        this.showDialog = true;
+        this.$store.commit('handleDialog',true);
         if (type === 'register') {
           this.activeTab = 'register';
         } else {
@@ -329,19 +330,13 @@
         }
         return pass;
       },
-      checkLogin(){
-        if(this.user._id){
-          this.isLogin=true;
-        }
-      },
       login(){
         let pass=this.loginForm.name.length>0&&this.loginForm.password.length>0;
         if(pass){
             axios.post('/api/users/login',{...this.loginForm}).then(res=>{
               if(res.data.code===200){
-                this.showDialog=false;
-                this.isLogin=true;
                 this.$store.commit('userLogin',res.data.result.user);
+                this.$store.commit('handleDialog',false);
                 this.$message({
                   message: '登录成功！',
                   type: 'success',
@@ -350,7 +345,7 @@
                 this.$message.error(res.data.msg)
               }
             }).catch(err=>{
-              this.$message.error(err.msg)
+              // this.$message.error(err.msg)
             })
         }else{
           this.$message.error('请输入正确的账号密码');
@@ -376,7 +371,7 @@
         }
       },
       closeDialog(){
-        this.showDialog=false;
+        this.$store.commit('handleDialog',false);
         this.loginForm={};
         this.registerForm={};
       },
@@ -384,8 +379,7 @@
         axios.post('/api/users/loginOut').then(res=>{
           if(res.data.code===200){
             this.isLogin=false;
-            this.user={};
-            this.$store.commit('userLogin',this.user);
+            this.$store.commit('userLogin',{});
             this.$message.error('注销成功！');
           }
         })
@@ -507,7 +501,7 @@
                  }
                }
                .user-img{
-                 margin: 15px 40px 0;
+                 margin: -2px 40px 0;
                  width: 35px;
                  height: 35px;
                  border-radius: 20px;

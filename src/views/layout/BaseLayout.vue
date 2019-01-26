@@ -10,11 +10,11 @@
     <div class="main-container">
       <slot></slot>
       <!--回到顶部 start-->
-      <div class="home-to-top" @click="scrollTop">
+      <div class="home-to-top"
+           @click="scrollTop">
         返回<br/>顶部
       </div>
       <!--回到顶部 end-->
-      
     </div>
     <AppFooter></AppFooter>
   </div>
