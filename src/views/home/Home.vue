@@ -32,10 +32,6 @@
             <i class="el-icon-setting"></i>
             <span slot="title">树洞角落</span>
           </el-menu-item>
-          <el-menu-item index="4">
-            <i class="el-icon-setting"></i>
-            <span slot="title">寻物启事</span>
-          </el-menu-item>
         </el-menu>
       </div>
       <div class="content-main">

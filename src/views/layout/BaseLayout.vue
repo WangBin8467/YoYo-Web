@@ -52,6 +52,7 @@
      .BaseLayout-container{
        height: 100%;
         .main-container{
+          background-color: #f4f5f5;
           .home-to-top {
             position: fixed;
             width: 45px;

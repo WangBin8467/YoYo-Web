@@ -8,14 +8,14 @@
   <div class="newsDetail-container">
     <div class="news-main">
       <div class="news-title">
-        {{newsData.name}}
+        {{newsData.title}}
       </div>
       <div class="news-info">
         <span class="info-createTime">{{newsData.createTime}}</span>
         <span class="info-author">{{newsData.author}}</span>
       </div>
       <div class="news-content">
-        <p>{{newsData.content}}</p>
+        <p v-html="newsData.content"></p>
       </div>
     </div>
     <div class="news-comment">
@@ -66,11 +66,19 @@
        </div>
       </el-card>
     </div>
+    <div class="side-nav">
+      <ul>
+        <li class="nav-item"><i class="fa fa-comment-o"></i></li>
+        <li class="nav-item"><i class="fa fa-thumbs-o-up"></i></li>
+        <li class="nav-item"><i class="el-icon-arrow-up"></i></li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
   import NewsComment from 'src/views/news/_components/news-comment';
+  import axios from 'axios';
   
   export default {
     name: 'newsDetail',
@@ -81,18 +89,7 @@
     },
     data() {
       return {
-        newsData:{
-          name:'那些你不知道的meta标签',
-          author:'groot',
-          createTime:'2019年01月01日',
-          content:'http-equiv是meta标签内容中非常重要的一环，从字面上看是跟HTTP相关，事实上其该属性的内容值都是特定HTTP的头，该属性与服务器和浏览器进行交互，让网站内容显示的准确和及时。\n' +
-            '该属性中content-type、content-language和set-cookie已经被废除了，同时像cleartype、imagetoolbar这类不在HTML标准范围内的，在此不再进行描述。\n' +
-            '\n' +
-            '作者：前端一小卒\n' +
-            '链接：https://juejin.im/post/5c288546e51d451a6b51554a\n' +
-            '来源：掘金\n' +
-            '著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。',
-        },
+        newsData:{},
         commentValue:'',
         commentData: [
           {
@@ -155,11 +152,17 @@
     created() {
     },
     mounted() {
+      this.getNewsInfo();
     },
     methods: {
       submitComment(){
         console.clear();
         console.log(this.commentValue);
+      },
+      getNewsInfo(){
+        axios.post('/api/news/getNewsInfo',{_id:this.$route.params.id}).then(res=>{
+          this.newsData=res.data.result.news;
+        })
       }
     },
   };
@@ -174,7 +177,8 @@
        .news-main{
          margin: 20px 0;
          .news-title{
-           font-size: 24px;
+           font-size: 22px;
+           font-weight: bold;
          }
          .news-info{
            padding: 10px;
@@ -289,6 +293,36 @@
          .author-info{
            padding: 30px 5px 0;
            color: #919191;
+         }
+       }
+       .side-nav{
+         position: fixed;
+         top: 260px;
+         left: 25%;
+         ul{
+           list-style: none;
+           padding: 0;
+           li{
+             cursor: pointer;
+             width: 40px;
+             height: 40px;
+             line-height: 40px;
+             text-align: center;
+             box-shadow: 0 2px 4px 0 rgba(0,0,0,.21);
+             border-radius: 20px;
+             margin: 10px 0;
+             background-color: white;
+             i{
+               font-size: 20px;
+               color: lightgray;
+             }
+           }
+           li:hover{
+             background-color: #409EFF;
+             i{
+               color: white;
+             }
+           }
          }
        }
      }

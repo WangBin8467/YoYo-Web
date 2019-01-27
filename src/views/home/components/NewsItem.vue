@@ -10,11 +10,11 @@
       <h5>为你推荐</h5>
     </div>
     <div v-for="(item,index) in data"
-         :key="item.id"
+         :key="item._id"
          class="new-item">
       <div class="new-title"
-           @click="toNewsDetail(item.id)">{{item.title}}</div>
-      <div class="new-content">{{item.content}}</div>
+           @click="toNewsDetail(item._id)">{{item.title}}</div>
+      <div class="new-content" v-html="item.content"></div>
       <div class="new-author">
         <a>{{item.author}}</a>
       </div>
@@ -75,7 +75,7 @@
        }
        .new-item{
          margin-top: 15px;
-         border-bottom: 1px solid #f6f6f6;
+         border-bottom: 1px solid #e0dada;
          padding: 10px 0 30px;
          .new-title{
            cursor: pointer;
@@ -87,6 +87,10 @@
            text-overflow:ellipsis;
            white-space: nowrap;
          }
+         .new-title:hover{
+           color:#409EFF;
+           font-weight: bold;
+         }
          .new-content{
            color: #888;
            font-size: 13px;
@@ -96,6 +100,7 @@
            -webkit-line-clamp: 2;
            overflow: hidden;
            line-height: 1.5;
+           max-height: 130px;
          }
          .new-author{
            float: left;

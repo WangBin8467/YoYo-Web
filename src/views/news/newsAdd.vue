@@ -97,7 +97,8 @@
           if (this.isLogin){
             axios.post('api/news/addNews',{
               ...this.form,
-              uid:this.user._id
+              userID:this.user._id,
+              author:this.user.name,
             }).then(res=>{
               if(res.data.code===200){
                 this.$message({
