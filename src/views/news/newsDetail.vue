@@ -68,9 +68,18 @@
     </div>
     <div class="side-nav">
       <ul>
-        <li class="nav-item"><i class="fa fa-comment-o"></i></li>
-        <li class="nav-item"><i class="fa fa-thumbs-o-up"></i></li>
-        <li class="nav-item"><i class="el-icon-arrow-up"></i></li>
+        <li class="nav-item">
+          <i class="fa fa-comment-o"></i>
+        </li>
+        <li class="nav-item">
+          <i class="fa fa-thumbs-o-up"
+             @click="addLike">
+          </i>
+        </li>
+        <li class="nav-item">
+          <i class="el-icon-arrow-up"
+             @click="scrollTop"></i>
+        </li>
       </ul>
     </div>
   </div>
@@ -79,6 +88,7 @@
 <script>
   import NewsComment from 'src/views/news/_components/news-comment';
   import axios from 'axios';
+  import { mapState } from 'vuex'
   
   export default {
     name: 'newsDetail',
@@ -148,7 +158,9 @@
         }
       };
     },
-    computed: {},
+    computed: {
+      ...mapState(['user','showUserDialog','isLogin']),
+    },
     created() {
     },
     mounted() {
@@ -160,10 +172,28 @@
         console.log(this.commentValue);
       },
       getNewsInfo(){
-        axios.post('/api/news/getNewsInfo',{_id:this.$route.params.id}).then(res=>{
+        axios.post('/api/news/getNewsInfo',{
+          _id:this.$route.params.id
+        }).then(res=>{
           this.newsData=res.data.result.news;
         })
-      }
+      },
+      addLike(){
+        if (this.isLogin){
+          axios.post('/api/users/addLike',{
+            newsID:this.newsData._id,
+            userID:this.user._id
+          }).then(res=>{
+            console.clear();
+            console.log(res);
+          })
+        } else{
+          this.$store.commit('handleDialog',true)
+        };
+      },
+      scrollTop() {
+        $('body,html').animate({ scrollTop: 0 }, 50);
+      },
     },
   };
 </script>

@@ -66,7 +66,7 @@
                         src="../../assets/home/头像 女孩.png">
                 </div>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item>个人中心</el-dropdown-item>
+                  <el-dropdown-item @click.native="toUser">个人中心</el-dropdown-item>
                   <el-dropdown-item>我赞过的</el-dropdown-item>
                   <el-dropdown-item>我的帖子</el-dropdown-item>
                   <el-dropdown-item style="color: #F56C6C"
@@ -308,9 +308,13 @@
     created() {
     },
     mounted() {},
+    mounted() {},
     methods: {
       toHome(){
         this.$router.push({path:'/Home'});
+      },
+      toUser(){
+        this.$router.push({path:'/user/home'});
       },
       openDialog(type) {
         this.$store.commit('handleDialog',true);
@@ -612,7 +616,7 @@
        }
      }
   .hiddenSvg{
-    margin-bottom: 100px !important;
+    margin-bottom: 70px !important;
   }
 </style>
 

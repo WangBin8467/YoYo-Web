@@ -7,6 +7,8 @@ import NewsItem from 'src/views/home/components/NewsItem';
 import NewsDetail from 'src/views/news/newsDetail';
 import NewsAdd from 'src/views/news/newsAdd';
 
+import UserCenter from 'src/views/user/user-center';
+
 Vue.use(Router)
 
 export default new Router({
@@ -32,6 +34,11 @@ export default new Router({
       path: '/News/add',
       name: 'NewsAdd',
       component: NewsAdd,
+    },
+    {
+      path: '/user/home',
+      name: 'UserCenter',
+      component: UserCenter,
     },
     {
       path: '*',
