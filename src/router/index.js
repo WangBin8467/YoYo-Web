@@ -36,7 +36,7 @@ export default new Router({
       component: NewsAdd,
     },
     {
-      path: '/user/home',
+      path: '/user/home/:type',
       name: 'UserCenter',
       component: UserCenter,
     },

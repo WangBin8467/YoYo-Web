@@ -66,9 +66,10 @@
                         src="../../assets/home/头像 女孩.png">
                 </div>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item @click.native="toUser">个人中心</el-dropdown-item>
-                  <el-dropdown-item>我赞过的</el-dropdown-item>
-                  <el-dropdown-item>我的帖子</el-dropdown-item>
+                  <el-dropdown-item @click.native="toUser('userInfo')">个人中心</el-dropdown-item>
+                  <el-dropdown-item @click.native="toUser('messages')">我的消息</el-dropdown-item>
+                  <el-dropdown-item @click.native="toUser('like')">我赞过的</el-dropdown-item>
+                  <el-dropdown-item @click.native="toUser('news')">我的帖子</el-dropdown-item>
                   <el-dropdown-item style="color: #F56C6C"
                                     @click.native="loginOut">注销</el-dropdown-item>
                 </el-dropdown-menu>
@@ -313,8 +314,8 @@
       toHome(){
         this.$router.push({path:'/Home'});
       },
-      toUser(){
-        this.$router.push({path:'/user/home'});
+      toUser(type){
+        this.$router.push({path:`/user/home/${type}`});
       },
       openDialog(type) {
         this.$store.commit('handleDialog',true);
