@@ -38,7 +38,8 @@
       <el-button class="user-edit"
                  type="primary"
                  size="small"
-                 round>编辑资料</el-button>
+                 round
+                 @click="editForm=true">编辑资料</el-button>
     </div>
     <div class="user-content">
       <el-tabs v-model="activeName"
@@ -51,23 +52,104 @@
                    label-position="left"
                    label-width="80px">
             <el-form-item label="用户名">
-              <el-input v-model="user.name"></el-input>
+              <template v-if="editForm">
+                <el-input v-model="user.name"></el-input>
+              </template>
+              <template v-else>
+                {{user.name}}
+              </template>
+            </el-form-item>
+            <el-form-item label="密码">
+              <template v-if="editForm">
+                <el-input v-model="user.password"
+                          type="password"></el-input>
+              </template>
+              <template v-else>{{user.password}}</template>
             </el-form-item>
             <el-form-item label="性别">
-              <el-radio v-model="user.sex" :label="1">男</el-radio>
-              <el-radio v-model="user.sex" :label="2">女</el-radio>
+              <template v-if="editForm">
+                <el-radio v-model="user.sex" :label="0">男</el-radio>
+                <el-radio v-model="user.sex" :label="1">女</el-radio>
+              </template>
+              <template v-else>
+                {{user.sex===0?'男':'女'}}
+              </template>
+            </el-form-item>
+            <el-form-item label="年级">
+              <el-select v-model="user.degree"
+                         :disabled="!editForm">
+                <el-option
+                        v-for="item in degreeOptions"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="年龄">
+              <template v-if="editForm">
+                <el-select v-model="user.age"
+                           filterable>
+                  <el-option
+                          v-for="item in 100"
+                          :key="item"
+                          :label="item"
+                          :value="item">
+                  </el-option>
+                </el-select>
+              </template>
+              <template v-else>
+                {{user.age}}
+              </template>
+            </el-form-item>
+            <el-form-item label="简介">
+              <template v-if="editForm">
+                <el-input type="textarea"
+                          v-model="user.remark"
+                          placeholder="你还没有介绍自己~">
+                </el-input>
+              </template>
+              <template v-else>
+                <span v-if="user.remark.length">user.remark</span>
+                <span v-else>你还没有介绍自己~</span>
+              </template>
             </el-form-item>
           </el-form>
+          <template v-if="editForm">
+            <el-button type="success"
+                       size="small"
+                       round
+                       class="save-btn">保存资料</el-button>
+            <el-button type="info"
+                       size="small"
+                       round
+                       class="close-btn"
+                       @click="editForm=false">取消</el-button>
+          </template>
         </el-tab-pane>
         <el-tab-pane name="messages">
-          <span slot="label"><i class="el-icon-date"></i> 我的消息</span>
-          我的消息
+          <span slot="label"><i class="el-icon-message"></i> 我的消息</span>
+          <div class="like-item">
+            <div class="like-user">
+              <div class="liker-img"></div>
+              <div class="liker-info">
+                <div class="liker-name">xxx</div>
+                <div class="liker-createTime">2019-01-21</div>
+              </div>
+              <div class="liker-detail">
+                <i class="fa fa-thumbs-o-up" style="color: red"></i>&nbsp;了你的帖子
+              </div>
+            </div>
+            <div class="like-news">
+            
+            </div>
+          </div>
         </el-tab-pane>
         <el-tab-pane name="news">
-          <span slot="label"><i class="el-icon-date"></i> 我的帖子</span>
+          <span slot="label"><i class="el-icon-tickets"></i> 我的帖子</span>
           我的帖子</el-tab-pane>
         <el-tab-pane name="like">
-          <span slot="label"><i class="el-icon-date"></i> 我赞过的</span>
+          <span slot="label"><i class="el-icon-star-off"></i> 我赞过的</span>
           我赞过的
         </el-tab-pane>
       </el-tabs>
@@ -86,6 +168,29 @@
     components: {},
     data() {
       return {
+        degreeOptions:[
+          {
+            value:1,
+            label:'大一',
+          },
+          {
+            value:2,
+            label:'大二',
+          },
+          {
+            value:3,
+            label:'大三',
+          },
+          {
+            value:4,
+            label:'大四',
+          },
+          {
+            value:5,
+            label:'未知',
+          },
+        ],
+        editForm:false
       };
     },
     computed: {
@@ -172,9 +277,46 @@
          }
        }
        .user-content{
-         margin-top: 15px;
+         margin: 15px 0 30px;
          .user-form{
            padding: 0 20px;
+         }
+         .save-btn{
+           margin-left: 85px;
+         }
+         .close-btn{
+           margin-left: 15px;
+         }
+         .like-item{
+           padding: 0 10px;
+           .like-user{
+             display: flex;
+             justify-content: flex-start;
+             align-items: center;
+             .liker-img{
+               width: 40px;
+               height: 40px;
+               background-color: red;
+             }
+             .liker-info{
+               margin-left: 20px;
+               .liker-name{
+                 font-size: 18px;
+               }
+               .liker-createTime{
+                 font-size: 12px;
+                 color: gray;
+               }
+             }
+             .liker-detail{
+               color: darkgray;
+               font-size: 14px;
+               margin-left: 40px;
+             }
+           }
+           .like-news{
+           
+           }
          }
        }
      }
@@ -182,6 +324,15 @@
 
 <style lang="scss">
      .user-center-container{
-
+       .user-content{
+         .user-form{
+           .el-input{
+             width: 220px !important;
+           }
+           .el-textarea{
+             width: 420px !important;
+           }
+         }
+       }
      }
 </style>
