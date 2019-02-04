@@ -129,25 +129,41 @@
         </el-tab-pane>
         <el-tab-pane name="messages">
           <span slot="label"><i class="el-icon-message"></i> 我的消息</span>
-          <div class="like-item">
+          <div :class="['like-item',{'borderBottom':index!=likeData.length-1}]"
+               v-for="(item,index) in likeData"
+               :key="item.id">
             <div class="like-user">
               <div class="liker-img"></div>
               <div class="liker-info">
-                <div class="liker-name">xxx</div>
-                <div class="liker-createTime">2019-01-21</div>
+                <div class="liker-name">{{item.liker_name}}</div>
+                <div class="liker-createTime">{{item.createTime}}</div>
               </div>
               <div class="liker-detail">
                 <i class="fa fa-thumbs-o-up" style="color: red"></i>&nbsp;了你的帖子
               </div>
             </div>
-            <div class="like-news">
-            
-            </div>
+            <div class="like-news" @click="toNews(item.newsData.id)">
+                <div class="news-name">
+                  {{item.newsData.name}}
+                </div>
+                <span class="news-createTime">{{item.newsData.createTime}}</span>
+                <div class="news-content">
+                  {{item.newsData.content}}
+                </div>
+              </div>
           </div>
         </el-tab-pane>
         <el-tab-pane name="news">
           <span slot="label"><i class="el-icon-tickets"></i> 我的帖子</span>
-          我的帖子</el-tab-pane>
+          <el-card v-for="(item,index) in userNews"
+                   :key="item.id"
+                   shadow="always"
+                   class="news-item">
+           <div>你于 {{item.createTime}} 发布了
+             <span style="color: #e6990c">{{item.name}}</span>
+           </div>
+          </el-card>
+        </el-tab-pane>
         <el-tab-pane name="like">
           <span slot="label"><i class="el-icon-star-off"></i> 我赞过的</span>
           我赞过的
@@ -190,7 +206,194 @@
             label:'未知',
           },
         ],
-        editForm:false
+        editForm:false,
+        likeData:[
+          {
+            id:1,
+            liker_img:'',
+            liker_name:'xxx',
+            createTime:'2019-01-21',
+            newsData:{
+              id:1,
+              name:'xxxxxxx',
+              content:'xxxxxxxxxxxxxx',
+              createTime:'2018-12-11',
+            }
+          },
+          {
+            id:2,
+            liker_img:'',
+            liker_name:'xxx',
+            createTime:'2019-01-21',
+            newsData:{
+              id:1,
+              name:'xxxxxxx',
+              content:'xxxxxxxxxxxxxx',
+              createTime:'2018-12-11',
+            }
+          },
+          {
+            id:3,
+            liker_img:'',
+            liker_name:'xxx',
+            createTime:'2019-01-21',
+            newsData:{
+              id:1,
+              name:'xxxxxxx',
+              content:'xxxxxxxxxxxxxx',
+              createTime:'2018-12-11',
+            }
+          },
+          {
+            id:4,
+            liker_img:'',
+            liker_name:'xxx',
+            createTime:'2019-01-21',
+            newsData:{
+              id:1,
+              name:'xxxxxxx',
+              content:'xxxxxxxxxxxxxx',
+              createTime:'2018-12-11',
+            }
+          },
+        ],
+        userNews:[
+          {
+            id:1,
+            name:'xxxxxxxxx',
+            content:'xxxxxxxxxxx',
+            createTime:'2019-01-11',
+            likeList:[
+              {
+                id:1,
+                likeTime:'2019-01-19'
+              },
+              {
+                id:2,
+                likeTime:'2019-01-19'
+              },
+              {
+                id:3,
+                likeTime:'2019-01-19'
+              },
+              {
+                id:4,
+                likeTime:'2019-01-19'
+              },{
+                id:5,
+                likeTime:'2019-01-19'
+              },
+            ]
+          },
+          {
+            id:2,
+            name:'xxxxxxxxx',
+            content:'xxxxxxxxxxx',
+            createTime:'2019-01-11',
+            likeList:[
+              {
+                id:1,
+                likeTime:'2019-01-19'
+              },
+              {
+                id:2,
+                likeTime:'2019-01-19'
+              },
+              {
+                id:3,
+                likeTime:'2019-01-19'
+              },
+              {
+                id:4,
+                likeTime:'2019-01-19'
+              },{
+                id:5,
+                likeTime:'2019-01-19'
+              },
+            ]
+          },
+          {
+            id:3,
+            name:'xxxxxxxxx',
+            content:'xxxxxxxxxxx',
+            createTime:'2019-01-11',
+            likeList:[
+              {
+                id:1,
+                likeTime:'2019-01-19'
+              },
+              {
+                id:2,
+                likeTime:'2019-01-19'
+              },
+              {
+                id:3,
+                likeTime:'2019-01-19'
+              },
+              {
+                id:4,
+                likeTime:'2019-01-19'
+              },{
+                id:5,
+                likeTime:'2019-01-19'
+              },
+            ]
+          },
+          {
+            id:4,
+            name:'xxxxxxxxx',
+            content:'xxxxxxxxxxx',
+            createTime:'2019-01-11',
+            likeList:[
+              {
+                id:1,
+                likeTime:'2019-01-19'
+              },
+              {
+                id:2,
+                likeTime:'2019-01-19'
+              },
+              {
+                id:3,
+                likeTime:'2019-01-19'
+              },
+              {
+                id:4,
+                likeTime:'2019-01-19'
+              },{
+                id:5,
+                likeTime:'2019-01-19'
+              },
+            ]
+          },
+          {
+            id:5,
+            name:'xxxxxxxxx',
+            content:'xxxxxxxxxxx',
+            createTime:'2019-01-11',
+            likeList:[
+              {
+                id:1,
+                likeTime:'2019-01-19'
+              },
+              {
+                id:2,
+                likeTime:'2019-01-19'
+              },
+              {
+                id:3,
+                likeTime:'2019-01-19'
+              },
+              {
+                id:4,
+                likeTime:'2019-01-19'
+              },{
+                id:5,
+                likeTime:'2019-01-19'
+              },
+            ]
+          },
+        ]
       };
     },
     computed: {
@@ -206,7 +409,12 @@
     },
     mounted() {
     },
-    methods: {},
+    methods: {
+      toNews(id){
+        console.clear();
+        console.log(id);
+      }
+    },
   };
 </script>
 
@@ -288,8 +496,10 @@
            margin-left: 15px;
          }
          .like-item{
-           padding: 0 10px;
+           margin: 0 20px;
+           padding: 15px 0;
            .like-user{
+             padding: 0 10px;
              display: flex;
              justify-content: flex-start;
              align-items: center;
@@ -315,8 +525,49 @@
              }
            }
            .like-news{
-           
+             margin: 15px 20px 0;
+             padding: 0 10px;
+             position: relative;
+             border-radius: 4px;
+             cursor: pointer;
+             border: 1px solid #ebeef5;
+             background-color: #fff;
+             color: #303133;
+             -webkit-transition: .3s;
+             transition: .3s;
+             .news-name{
+               font-size: 16px;
+               font-weight: bold;
+               padding: 5px;
+               color: #409EFF;
+             }
+             .news-createTime{
+               position: absolute;
+               top:5px;
+               right: 5px;
+               margin-right: 20px;
+               font-size: 12px;
+             }
+             .news-content{
+               padding: 0 5px 5px;
+               color: #969696;
+               font-size: 16px;
+               display: -webkit-box;
+               -webkit-box-orient: vertical;
+               -webkit-line-clamp: 3;
+               overflow: hidden;
+             }
            }
+           .like-news:hover{
+             transform: translate(0, -2px);
+             box-shadow: 0 10px 20px -10px #6a6a6a;
+           }
+         }
+         .news-item{
+           margin: 5px 0;
+         }
+         .borderBottom{
+           border-bottom: 1px solid #dfdfdf;
          }
        }
      }
