@@ -59,13 +59,6 @@
                 {{user.name}}
               </template>
             </el-form-item>
-            <el-form-item label="密码">
-              <template v-if="editForm">
-                <el-input v-model="user.password"
-                          type="password"></el-input>
-              </template>
-              <template v-else>{{user.password}}</template>
-            </el-form-item>
             <el-form-item label="性别">
               <template v-if="editForm">
                 <el-radio v-model="user.sex" :label="0">男</el-radio>
@@ -158,15 +151,50 @@
           <el-card v-for="(item,index) in userNews"
                    :key="item.id"
                    shadow="always"
-                   class="news-item">
-           <div>你于 {{item.createTime}} 发布了
+                   class="news-item"
+                   @click="toNews(item.id)">
+            <div class="news-content">你于
+              <span style="color: #e6990c">{{item.createTime}}</span> 发布了
              <span style="color: #e6990c">{{item.name}}</span>
-           </div>
+            </div>
+            <div class="news-like">收获了12个赞</div>
           </el-card>
         </el-tab-pane>
         <el-tab-pane name="like">
           <span slot="label"><i class="el-icon-star-off"></i> 我赞过的</span>
-          我赞过的
+          <div v-for="(item,index) in likeNewsData"
+               :key="item._id"
+               class="new-item">
+            <div class="new-title"
+                 @click="toNewsDetail(item._id)">{{item.title}}</div>
+            <div class="new-content" v-html="item.content"></div>
+            <div class="new-author">
+              <a>{{item.author}}</a>
+            </div>
+            <div class="new-time">{{item.createTime}}</div>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane name="privacy">
+          <span slot="label"><i class="el-icon-setting"></i> 隐私与安全设置</span>
+          <el-steps :active="stepActive"
+                    direction="vertical"
+                    finish-status="success"
+                    class="privacy-tab">
+            <el-step title="输入现有密码"></el-step>
+            <el-step title="输入新的密码"></el-step>
+            <el-step title="密码重置成功"></el-step>
+          </el-steps>
+          <div class="edit-form">
+            <div class="edit-item">
+              <el-input type="password"></el-input>
+            </div>
+            <div class="edit-item">
+              <el-input type="password"></el-input>
+            </div>
+            <div class="edit-item">
+              <el-input type="password"></el-input>
+            </div>
+          </div>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -181,7 +209,8 @@
     props: {
     },
     mixins: [],
-    components: {},
+    components: {
+    },
     data() {
       return {
         degreeOptions:[
@@ -393,7 +422,38 @@
               },
             ]
           },
-        ]
+        ],
+        likeNewsData:[
+          {
+            _id:1,
+            title:'xxxxxxxx',
+            content:'xxxxxxxxxxxxxxx',
+            author:'xxxx',
+            createTime:'xxxxxxxx'
+          },
+          {
+            _id:2,
+            title:'xxxxxxxx',
+            content:'xxxxxxxxxxxxxxx',
+            author:'xxxx',
+            createTime:'xxxxxxxx'
+          },
+          {
+            _id:3,
+            title:'xxxxxxxx',
+            content:'xxxxxxxxxxxxxxx',
+            author:'xxxx',
+            createTime:'xxxxxxxx'
+          },
+          {
+            _id:4,
+            title:'xxxxxxxx',
+            content:'xxxxxxxxxxxxxxx',
+            author:'xxxx',
+            createTime:'xxxxxxxx'
+          },
+        ],
+        stepActive:1,
       };
     },
     computed: {
@@ -413,7 +473,7 @@
       toNews(id){
         console.clear();
         console.log(id);
-      }
+      },
     },
   };
 </script>
@@ -486,6 +546,7 @@
        }
        .user-content{
          margin: 15px 0 30px;
+         position: relative;
          .user-form{
            padding: 0 20px;
          }
@@ -565,6 +626,73 @@
          }
          .news-item{
            margin: 5px 0;
+           cursor: pointer;
+           .news-content{
+             font-size: 15px;
+             color: #6a6a6a;
+           }
+           .news-like{
+             font-size: 13px;
+             margin-top: 5px;
+           }
+         }
+         .new-item{
+           border-bottom: 1px solid #e0dada;
+           padding: 10px 0 30px;
+           .new-title{
+             cursor: pointer;
+             color: #212121;
+             font-weight: 500;
+             font-size: 18px;
+             margin: 10px 0;
+             overflow: hidden;
+             text-overflow:ellipsis;
+             white-space: nowrap;
+           }
+           .new-title:hover{
+             color:#409EFF;
+             font-weight: bold;
+           }
+           .new-content{
+             color: #888;
+             font-size: 13px;
+             margin: 5px 0;
+             display: -webkit-box;
+             -webkit-box-orient: vertical;
+             -webkit-line-clamp: 2;
+             overflow: hidden;
+             line-height: 1.5;
+             max-height: 130px;
+           }
+           .new-author{
+             float: left;
+             color: #666;
+             font-size: 13px;
+             margin: 5px 0;
+             color: #409EFF;
+             font-weight: bold;
+           }
+           .new-time{
+             margin-top: 5px;
+             float: right;
+             display: inline-block;
+             color: #888;
+             font-size: 13px;
+           }
+         }
+         .privacy-tab{
+           height: 400px;
+           width: 130px;
+           padding: 10px 30px;
+         }
+         .edit-form{
+           position: absolute;
+           left: 200px;
+           top: 20px;
+           width: 360px;
+           .edit-item{
+             height: 185px;
+           }
          }
          .borderBottom{
            border-bottom: 1px solid #dfdfdf;
@@ -582,6 +710,20 @@
            }
            .el-textarea{
              width: 420px !important;
+           }
+         }
+         .news-item{
+           .el-card__body{
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+           }
+         }
+         .edit-form{
+           .edit-item{
+             .el-input{
+               width: 220px !important;
+             }
            }
          }
        }
