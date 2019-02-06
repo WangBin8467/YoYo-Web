@@ -177,7 +177,6 @@
         <el-tab-pane name="privacy">
           <span slot="label"><i class="el-icon-setting"></i> 隐私与安全设置</span>
           <el-steps :active="stepActive"
-                    direction="vertical"
                     finish-status="success"
                     class="privacy-tab">
             <el-step title="输入现有密码"></el-step>
@@ -186,13 +185,18 @@
           </el-steps>
           <div class="edit-form">
             <div class="edit-item">
-              <el-input type="password"></el-input>
+              <el-input type="password"
+                        size="small"
+                        :autofocus="true"
+                        v-model="pwdInit"
+                        @blur="checkPwd"></el-input>
             </div>
-            <div class="edit-item">
-              <el-input type="password"></el-input>
-            </div>
-            <div class="edit-item">
-              <el-input type="password"></el-input>
+            <div class="edit-item" style="margin-left: 240px;">
+              <el-input type="password"
+                        v-model="pwdReset"
+                        @blur="checkPwdReset"
+                        size="small"
+                        v-if="stepActive!=1"></el-input>
             </div>
           </div>
         </el-tab-pane>
@@ -454,6 +458,8 @@
           },
         ],
         stepActive:1,
+        pwdInit:'',
+        pwdReset:'',
       };
     },
     computed: {
@@ -474,6 +480,24 @@
         console.clear();
         console.log(id);
       },
+      checkPwd(){
+        if(this.pwdInit===this.user.password){
+          this.stepActive=2;
+        }else{
+          this.$message.error('密码输入错误！')
+        }
+      },
+      checkPwdReset(){
+        if(this.pwdReset.length<6){
+          this.$message.error('密码不得少于6位字符')
+        } else if (this.pwdReset===this.user.password){
+          this.$message.error('密码不得与最近密码一致！')
+        }else{
+          this.stepActive=3;
+          this.pwdInit='';
+          this.pwdReset='';
+        }
+      }
     },
   };
 </script>
@@ -682,16 +706,17 @@
          }
          .privacy-tab{
            height: 400px;
-           width: 130px;
            padding: 10px 30px;
          }
          .edit-form{
            position: absolute;
-           left: 200px;
-           top: 20px;
-           width: 360px;
+           left: 40px;
+           top: 120px;
+           display: flex;
+           flex-direction: row;
            .edit-item{
              height: 185px;
+             margin: 0 30px;
            }
          }
          .borderBottom{
@@ -719,10 +744,19 @@
              align-items: center;
            }
          }
+         .privacy-tab{
+           .el-step{
+             .el-step__main{
+               .el-step__title{
+                 font-size: 14px;
+               }
+             }
+           }
+         }
          .edit-form{
            .edit-item{
              .el-input{
-               width: 220px !important;
+               width: 160px !important;
              }
            }
          }
