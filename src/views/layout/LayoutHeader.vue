@@ -241,7 +241,7 @@
         showSvg: true,
         activeTab: 'login',
         loginForm:{
-          name:'admin',
+          name:'groot',
           password:'123456'
         },
         loginRules:{

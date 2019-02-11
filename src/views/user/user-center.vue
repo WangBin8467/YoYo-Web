@@ -46,30 +46,30 @@
                type="border-card">
         <el-tab-pane name="userInfo">
           <span slot="label"><i class="el-icon-date"></i> 个人资料</span>
-          <el-form ref="user"
+          <el-form ref="userData"
                    class="user-form"
-                   :model="user"
+                   :model="userData"
                    label-position="left"
                    label-width="80px">
             <el-form-item label="用户名">
               <template v-if="editForm">
-                <el-input v-model="user.name"></el-input>
+                <el-input v-model="userData.name"></el-input>
               </template>
               <template v-else>
-                {{user.name}}
+                {{userData.name}}
               </template>
             </el-form-item>
             <el-form-item label="性别">
               <template v-if="editForm">
-                <el-radio v-model="user.sex" :label="0">男</el-radio>
-                <el-radio v-model="user.sex" :label="1">女</el-radio>
+                <el-radio v-model="userData.sex" :label="0">男</el-radio>
+                <el-radio v-model="userData.sex" :label="1">女</el-radio>
               </template>
               <template v-else>
-                {{user.sex===0?'男':'女'}}
+                {{userData.sex===0?'男':'女'}}
               </template>
             </el-form-item>
             <el-form-item label="年级">
-              <el-select v-model="user.degree"
+              <el-select v-model="userData.degree"
                          :disabled="!editForm">
                 <el-option
                         v-for="item in degreeOptions"
@@ -81,7 +81,7 @@
             </el-form-item>
             <el-form-item label="年龄">
               <template v-if="editForm">
-                <el-select v-model="user.age"
+                <el-select v-model="userData.age"
                            filterable>
                   <el-option
                           v-for="item in 100"
@@ -92,18 +92,18 @@
                 </el-select>
               </template>
               <template v-else>
-                {{user.age}}
+                {{userData.age}}
               </template>
             </el-form-item>
             <el-form-item label="简介">
               <template v-if="editForm">
                 <el-input type="textarea"
-                          v-model="user.remark"
+                          v-model="userData.remark"
                           placeholder="你还没有介绍自己~">
                 </el-input>
               </template>
               <template v-else>
-                <span v-if="user.remark.length">user.remark</span>
+                <span v-if="userData.remark.length">{{userData.remark}}</span>
                 <span v-else>你还没有介绍自己~</span>
               </template>
             </el-form-item>
@@ -112,7 +112,8 @@
             <el-button type="success"
                        size="small"
                        round
-                       class="save-btn">保存资料</el-button>
+                       class="save-btn"
+                       @click="saveInfo">保存资料</el-button>
             <el-button type="info"
                        size="small"
                        round
@@ -149,13 +150,13 @@
         <el-tab-pane name="news">
           <span slot="label"><i class="el-icon-tickets"></i> 我的帖子</span>
           <el-card v-for="(item,index) in userNews"
-                   :key="item.id"
+                   :key="item._id"
                    shadow="always"
                    class="news-item"
-                   @click="toNews(item.id)">
+                   @click="toNews(item._id)">
             <div class="news-content">你于
               <span style="color: #e6990c">{{item.createTime}}</span> 发布了
-             <span style="color: #e6990c">{{item.name}}</span>
+             <span style="color: #e6990c">"{{item.title}}"</span>
             </div>
             <div class="news-like">收获了12个赞</div>
           </el-card>
@@ -207,6 +208,7 @@
 
 <script>
   import { mapState } from 'vuex'
+  import axios from 'axios';
   
   export default {
     name: 'user-center',
@@ -290,143 +292,7 @@
             }
           },
         ],
-        userNews:[
-          {
-            id:1,
-            name:'xxxxxxxxx',
-            content:'xxxxxxxxxxx',
-            createTime:'2019-01-11',
-            likeList:[
-              {
-                id:1,
-                likeTime:'2019-01-19'
-              },
-              {
-                id:2,
-                likeTime:'2019-01-19'
-              },
-              {
-                id:3,
-                likeTime:'2019-01-19'
-              },
-              {
-                id:4,
-                likeTime:'2019-01-19'
-              },{
-                id:5,
-                likeTime:'2019-01-19'
-              },
-            ]
-          },
-          {
-            id:2,
-            name:'xxxxxxxxx',
-            content:'xxxxxxxxxxx',
-            createTime:'2019-01-11',
-            likeList:[
-              {
-                id:1,
-                likeTime:'2019-01-19'
-              },
-              {
-                id:2,
-                likeTime:'2019-01-19'
-              },
-              {
-                id:3,
-                likeTime:'2019-01-19'
-              },
-              {
-                id:4,
-                likeTime:'2019-01-19'
-              },{
-                id:5,
-                likeTime:'2019-01-19'
-              },
-            ]
-          },
-          {
-            id:3,
-            name:'xxxxxxxxx',
-            content:'xxxxxxxxxxx',
-            createTime:'2019-01-11',
-            likeList:[
-              {
-                id:1,
-                likeTime:'2019-01-19'
-              },
-              {
-                id:2,
-                likeTime:'2019-01-19'
-              },
-              {
-                id:3,
-                likeTime:'2019-01-19'
-              },
-              {
-                id:4,
-                likeTime:'2019-01-19'
-              },{
-                id:5,
-                likeTime:'2019-01-19'
-              },
-            ]
-          },
-          {
-            id:4,
-            name:'xxxxxxxxx',
-            content:'xxxxxxxxxxx',
-            createTime:'2019-01-11',
-            likeList:[
-              {
-                id:1,
-                likeTime:'2019-01-19'
-              },
-              {
-                id:2,
-                likeTime:'2019-01-19'
-              },
-              {
-                id:3,
-                likeTime:'2019-01-19'
-              },
-              {
-                id:4,
-                likeTime:'2019-01-19'
-              },{
-                id:5,
-                likeTime:'2019-01-19'
-              },
-            ]
-          },
-          {
-            id:5,
-            name:'xxxxxxxxx',
-            content:'xxxxxxxxxxx',
-            createTime:'2019-01-11',
-            likeList:[
-              {
-                id:1,
-                likeTime:'2019-01-19'
-              },
-              {
-                id:2,
-                likeTime:'2019-01-19'
-              },
-              {
-                id:3,
-                likeTime:'2019-01-19'
-              },
-              {
-                id:4,
-                likeTime:'2019-01-19'
-              },{
-                id:5,
-                likeTime:'2019-01-19'
-              },
-            ]
-          },
-        ],
+        userNews:[],
         likeNewsData:[
           {
             _id:1,
@@ -460,6 +326,7 @@
         stepActive:1,
         pwdInit:'',
         pwdReset:'',
+        userData:{}
       };
     },
     computed: {
@@ -474,8 +341,23 @@
     created() {
     },
     mounted() {
+      this.userData=_.cloneDeep(this.user);
+      this.getUserNews()
     },
     methods: {
+      saveInfo(){
+        axios.post('/api/users/updateInfo',{...this.userData})
+        .then(res=>{
+          this.$message({
+            type:'success',
+            message:'资料更新成功！'
+          })
+          this.$store.commit('userLogin',this.userData);
+          this.editForm=false;
+        }).catch(err=>{
+          this.$message.error('操作失败！')
+        })
+      },
       toNews(id){
         console.clear();
         console.log(id);
@@ -497,6 +379,14 @@
           this.pwdInit='';
           this.pwdReset='';
         }
+      },
+      getUserNews(){
+        axios.post('/api/news/getUserNews',{userID:this.user._id})
+        .then(res=>{
+          this.userNews=res.data.result.news;
+          console.clear();
+          console.log(this.userNews);
+        })
       }
     },
   };
