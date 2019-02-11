@@ -153,10 +153,10 @@
                    :key="item._id"
                    shadow="always"
                    class="news-item"
-                   @click="toNews(item._id)">
+                   @click.native="toNews(item._id)">
             <div class="news-content">你于
               <span style="color: #e6990c">{{item.createTime}}</span> 发布了
-             <span style="color: #e6990c">"{{item.title}}"</span>
+              <span style="color: #e6990c">"{{item.title}}"</span>
             </div>
             <div class="news-like">收获了12个赞</div>
           </el-card>
@@ -359,8 +359,7 @@
         })
       },
       toNews(id){
-        console.clear();
-        console.log(id);
+        this.$router.push({path:`/News/id/${id}`});
       },
       checkPwd(){
         if(this.pwdInit===this.user.password){
@@ -375,17 +374,28 @@
         } else if (this.pwdReset===this.user.password){
           this.$message.error('密码不得与最近密码一致！')
         }else{
-          this.stepActive=3;
-          this.pwdInit='';
-          this.pwdReset='';
+          axios.post('/api/users/changeUserPwd', {
+            password:this.pwdReset,
+            _id:this.user._id
+          }).then(res=>{
+            console.clear();
+            console.log(res);
+            this.stepActive=3;
+            this.pwdInit='';
+            this.pwdReset='';
+            this.$message({
+              type:'success',
+              message:'重置密码成功！'
+            })
+          }).catch(err=>{
+            this.$message.error('操作失败！')
+          })
         }
       },
       getUserNews(){
         axios.post('/api/news/getUserNews',{userID:this.user._id})
         .then(res=>{
           this.userNews=res.data.result.news;
-          console.clear();
-          console.log(this.userNews);
         })
       }
     },
