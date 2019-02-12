@@ -378,11 +378,11 @@
             password:this.pwdReset,
             _id:this.user._id
           }).then(res=>{
-            console.clear();
-            console.log(res);
+            this.userData.password=this.pwdReset
             this.stepActive=3;
             this.pwdInit='';
             this.pwdReset='';
+            this.$store.commit('userLogin',this.userData);
             this.$message({
               type:'success',
               message:'重置密码成功！'
