@@ -15,13 +15,14 @@
                      round
                      plain
                      size="mini"
+                     @click="changeImage"
                      class="img-btn">更改头像</el-button>
         </div>
         <div class="user-txt">
           <span class="user-name">Groot</span>
           <div class="user-ul">
             <div>
-              <span>1</span>
+              <span>{{userNews.length}}</span>
               <span>帖子</span>
             </div>
             <div>
@@ -203,6 +204,27 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+    <el-dialog title="上传头像"
+               width="600px"
+               center
+               :visible.sync="showChangeImage"
+               class="upload-image">
+      <el-upload
+              class="upload-demo"
+              drag
+              list-type="picture"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              multiple>
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+      </el-upload>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="showChangeImage = false">取 消</el-button>
+        <el-button type="primary"
+                   @click="showChangeImage = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -326,7 +348,8 @@
         stepActive:1,
         pwdInit:'',
         pwdReset:'',
-        userData:{}
+        userData:{},
+        showChangeImage:false
       };
     },
     computed: {
@@ -342,7 +365,7 @@
     },
     mounted() {
       this.userData=_.cloneDeep(this.user);
-      this.getUserNews()
+      this.getUserNews();
     },
     methods: {
       saveInfo(){
@@ -397,6 +420,9 @@
         .then(res=>{
           this.userNews=res.data.result.news;
         })
+      },
+      changeImage(){
+        this.showChangeImage=true
       }
     },
   };
