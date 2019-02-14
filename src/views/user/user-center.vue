@@ -6,6 +6,8 @@
 */
 <template>
   <div class="user-center-container">
+    
+    <!--用户资料 START-->
     <div class="user-info">
       <div class="info">
         <div class="info-img">
@@ -42,6 +44,9 @@
                  round
                  @click="editForm=true">编辑资料</el-button>
     </div>
+    <!--用户资料 END-->
+    
+    <!--tab资料 START-->
     <div class="user-content">
       <el-tabs v-model="activeName"
                type="border-card">
@@ -204,6 +209,9 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+    <!--tab资料 END-->
+    
+    <!--上传头像弹框 START-->
     <el-dialog title="上传头像"
                width="600px"
                center
@@ -211,26 +219,32 @@
                class="upload-image">
       <el-upload
               class="upload-demo"
+              ref="imgBroadcastUpload"
+              :file-list="imgList"
               drag
-              list-type="picture"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              multiple>
+              action="''"
+              accept="image/*"
+              :on-change="uploadImage"
+              :on-remove="removeImage"
+              :multiple="false">
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过2M</div>
       </el-upload>
       <span slot="footer" class="dialog-footer">
         <el-button @click="showChangeImage = false">取 消</el-button>
         <el-button type="primary"
-                   @click="showChangeImage = false">确 定</el-button>
+                   @click="submitImage">确 定</el-button>
       </span>
     </el-dialog>
+    <!--上传头像弹框 END-->
   </div>
 </template>
 
 <script>
   import { mapState } from 'vuex'
   import axios from 'axios';
+  import { uploadImgToBase64 } from 'src/utils/utils.js';
   
   export default {
     name: 'user-center',
@@ -349,7 +363,9 @@
         pwdInit:'',
         pwdReset:'',
         userData:{},
-        showChangeImage:false
+        showChangeImage:true,
+        imgList:[],  // 储存选中的图片列表
+        imgStr:''     // 后端需要的多张图base64字符串 , 分割
       };
     },
     computed: {
@@ -423,7 +439,45 @@
       },
       changeImage(){
         this.showChangeImage=true
-      }
+      },
+      // 上传图片
+      uploadImage(file, fileList){
+        const isLt2M = file.size / 1024 / 1024 < 2  // 上传头像图片大小不能超过 2MB
+        if (!isLt2M) {
+          this.imgList = fileList.filter(v => v.uid !== file.uid)
+          this.$message.error('图片选择失败，每张图片大小不能超过 2MB,请重新选择!')
+        } else if(this.imgList.length>1){
+          this.$message.error('只能上传一张图片！')
+        }else{
+          this.imgList.push(file);
+        }
+      },
+      // 有图片移除后 触发
+      removeImage (file, fileList) {
+        this.imgList = fileList;
+      },
+      // 提交图片base64
+      async submitImage () {
+        console.log('图片转base64开始...')
+        uploadImgToBase64(this.imgList[0].raw).then((val)=>{
+          const imgStr=val.result.replace(/.*;base64,/, '')
+          axios.post('/api/users/changeImage',{
+            imgStr:imgStr,
+            _id:this.user._id,
+          })
+          .then(res=>{
+            this.userData.imageUrl=imgStr;
+            this.$store.commit('userLogin',this.userData);
+            this.showChangeImage=false;
+            this.$message({
+              type:'success',
+              message:'更新成功！'
+            })
+          }).catch(err=>{
+            this.$message.error(err.msg)
+          })
+        })
+      },
     },
   };
 </script>
@@ -686,6 +740,11 @@
              }
            }
          }
+       }
+       .upload-image{
+        .el-dialog__body{
+          text-align: center;
+        }
        }
      }
 </style>
