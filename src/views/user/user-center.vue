@@ -459,24 +459,32 @@
       // 提交图片base64
       async submitImage () {
         console.log('图片转base64开始...')
-        uploadImgToBase64(this.imgList[0].raw).then((val)=>{
-          const imgStr=val.result.replace(/.*;base64,/, '')
-          axios.post('/api/users/changeImage',{
-            imgStr:imgStr,
-            _id:this.user._id,
-          })
-          .then(res=>{
-            this.userData.imageUrl=imgStr;
-            this.$store.commit('userLogin',this.userData);
-            this.showChangeImage=false;
-            this.$message({
-              type:'success',
-              message:'更新成功！'
+        if (this.imgList.length<1){
+          this.$message.error('请上传图片！')
+        } else{
+          uploadImgToBase64(this.imgList[0].raw).then((val)=>{
+            const imgStr=val.result.replace(/.*;base64,/, '')
+            axios.post('/api/users/changeImage',{
+              imgStr:imgStr,
+              _id:this.user._id,
             })
-          }).catch(err=>{
-            this.$message.error(err.msg)
+            .then(res=>{
+              if(res.data.code===400){
+                this.$message.error(res.data.msg);
+                return;
+              }
+              this.userData.imageUrl=imgStr;
+              this.$store.commit('userLogin',this.userData);
+              this.showChangeImage=false;
+              this.$message({
+                type:'success',
+                message:'更新成功！'
+              })
+            }).catch(err=>{
+              this.$message.error(err.msg)
+            })
           })
-        })
+        }
       },
     },
   };

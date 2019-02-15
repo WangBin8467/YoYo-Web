@@ -26,6 +26,7 @@
               </ul>
             </div>
           </div>
+          <img :src=`'data:image/png;base64,${user.imageUrl}'`>
           <div class="header-search">
             <el-input v-model="searchValue"
                       placeholder="请输入内容"
@@ -79,6 +80,7 @@
       </div>
     </div>
     <!--首页导航 end-->
+    
   
     <!--介绍transiton start-->
     <transition name="el-zoom-in-top">
