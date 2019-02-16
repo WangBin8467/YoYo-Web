@@ -26,7 +26,6 @@
               </ul>
             </div>
           </div>
-          <img :src=`'data:image/png;base64,${user.imageUrl}'`>
           <div class="header-search">
             <el-input v-model="searchValue"
                       placeholder="请输入内容"
@@ -61,10 +60,15 @@
             </div>
             <el-dropdown v-else>
                 <div class="user-img">
-                  <img  v-if="+user.sex===0"
-                        src="../../assets/home/头像 男孩.png">
-                  <img  v-else
-                        src="../../assets/home/头像 女孩.png">
+                  <template v-if="user.imageUrl.length">
+                    <img :src='`data:image/png;base64,${user.imageUrl}`'>
+                  </template>
+                  <template v-else>
+                    <img  v-if="+user.sex===0"
+                          src="../../assets/home/头像 男孩.png">
+                    <img  v-else
+                          src="../../assets/home/头像 女孩.png">
+                  </template>
                 </div>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item @click.native="toUser('userInfo')">个人中心</el-dropdown-item>
@@ -512,7 +516,7 @@
                  width: 35px;
                  height: 35px;
                  border-radius: 20px;
-                 background-color: lightgray;
+                 background-color: #eeeeee;
                  cursor: pointer;
                  transition: 1s ease;
                  img{

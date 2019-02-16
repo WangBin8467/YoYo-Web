@@ -11,8 +11,18 @@
     <div class="user-info">
       <div class="info">
         <div class="info-img">
-          <img src="../../assets/home/头像 男孩.png"
-               class="user-img">
+          <template v-if="user.imageUrl.length">
+            <img :src='`data:image/png;base64,${user.imageUrl}`'
+                 class="user-img">
+          </template>
+          <template v-else>
+            <img  v-if="+user.sex===0"
+                  class="user-img"
+                  src="../../assets/home/头像 男孩.png">
+            <img  v-else
+                  class="user-img"
+                  src="../../assets/home/头像 女孩.png">
+          </template>
           <el-button type="success"
                      round
                      plain
@@ -363,7 +373,7 @@
         pwdInit:'',
         pwdReset:'',
         userData:{},
-        showChangeImage:true,
+        showChangeImage:false,
         imgList:[],  // 储存选中的图片列表
         imgStr:''     // 后端需要的多张图base64字符串 , 分割
       };
@@ -440,6 +450,7 @@
       changeImage(){
         this.showChangeImage=true
       },
+      
       // 上传图片
       uploadImage(file, fileList){
         const isLt2M = file.size / 1024 / 1024 < 2  // 上传头像图片大小不能超过 2MB
@@ -452,10 +463,12 @@
           this.imgList.push(file);
         }
       },
+      
       // 有图片移除后 触发
       removeImage (file, fileList) {
         this.imgList = fileList;
       },
+      
       // 提交图片base64
       async submitImage () {
         console.log('图片转base64开始...')

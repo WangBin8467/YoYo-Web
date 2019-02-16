@@ -78,7 +78,6 @@
     computed: {
       activeIndex() {
         const paths = this.$route.path.split('/');
-
         return paths[paths.length - 1];
       },
     },
@@ -96,7 +95,6 @@
     min-height: 100%;
     .home-content {
       padding: 0 15%;
-      margin: 30px auto;
       display: flex;
       flex-direction: row;
       min-height: 700px;

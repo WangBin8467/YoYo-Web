@@ -73,6 +73,7 @@
         </li>
         <li class="nav-item">
           <i class="fa fa-thumbs-o-up"
+             :style="isLike?{color:'#409EFF'}:null"
              @click="addLike">
           </i>
         </li>
@@ -155,7 +156,8 @@
           degree:'大三',
           sex:0,
           remark:'',
-        }
+        },
+        isLike:false
       };
     },
     computed: {
@@ -176,17 +178,23 @@
           _id:this.$route.params.id
         }).then(res=>{
           this.newsData=res.data.result.news;
+          this.getNewsLike();
         })
       },
       addLike(){
         if (this.isLogin){
-          axios.post('/api/users/addLike',{
-            newsID:this.newsData._id,
-            userID:this.user._id
-          }).then(res=>{
-            console.clear();
-            console.log(res);
-          })
+          if(!this.isLike){
+            axios.post('/api/praises/addLike',{
+              praiseID:this.user._id,
+              bePraiseID:this.newsData.userID,
+              newsID:this.newsData._id,
+            }).then(res=>{
+              this.$message({
+                type:'success',
+                message:'点赞成功',
+              })
+            })
+          }
         } else{
           this.$store.commit('handleDialog',true)
         };
@@ -194,6 +202,16 @@
       scrollTop() {
         $('body,html').animate({ scrollTop: 0 }, 50);
       },
+      getNewsLike(){
+        axios.post('/api/praises/getNewsLike',{
+          newsID:this.newsData._id
+        }).then(res=>{
+          const likeList=res.data.result.likeList;
+          if(likeList.filter(i=>i===this.user._id).length){
+            this.isLike=true;
+          }
+        })
+      }
     },
   };
 </script>
