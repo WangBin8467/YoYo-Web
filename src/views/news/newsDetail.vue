@@ -6,6 +6,8 @@
 */
 <template>
   <div class="newsDetail-container">
+  
+    <!--帖子内容 START-->
     <div class="news-main">
       <div class="news-title">
         {{newsData.title}}
@@ -18,8 +20,12 @@
         <p v-html="newsData.content"></p>
       </div>
     </div>
+    <!--帖子内容 END-->
+    
+    <!--帖子评论区 START-->
     <div class="news-comment">
-      <div class="comment-input">
+      <div class="comment-input"
+           v-if="showInput">
         <transition name="fade">
           <div class="input-wrapper">
             <el-input class="gray-bg-input"
@@ -44,6 +50,9 @@
         <NewsComment :comments="commentData"></NewsComment>
       </div>
     </div>
+    <!--帖子评论区 END-->
+    
+    <!--侧边作者信息 START-->
     <div class="news-author">
       <el-card shadow="always">
         <div class="author-sup"></div>
@@ -66,10 +75,14 @@
        </div>
       </el-card>
     </div>
+    <!--侧边作者信息 END-->
+  
+    <!--侧边导航 START-->
     <div class="side-nav">
       <ul>
         <li class="nav-item">
-          <i class="fa fa-comment-o"></i>
+          <i class="fa fa-comment-o"
+             @click="showInput=true"></i>
         </li>
         <li class="nav-item">
           <i class="fa fa-thumbs-o-up"
@@ -83,6 +96,7 @@
         </li>
       </ul>
     </div>
+    <!--侧边导航 END-->
   </div>
 </template>
 
@@ -157,7 +171,8 @@
           sex:0,
           remark:'',
         },
-        isLike:false
+        isLike:false,
+        showInput:false
       };
     },
     computed: {
@@ -177,7 +192,7 @@
         axios.post('/api/news/getNewsInfo',{
           _id:this.$route.params.id
         }).then(res=>{
-          this.newsData=res.data.result.news;
+          this.newsData=res.data.result;
           this.getNewsLike();
         })
       },
@@ -193,6 +208,12 @@
                 type:'success',
                 message:'点赞成功',
               })
+              this.isLike=true;
+            })
+          }else{
+            this.$message({
+              type:'success',
+              message:'你已经点过👍啦~'
             })
           }
         } else{
@@ -211,7 +232,7 @@
             this.isLike=true;
           }
         })
-      }
+      },
     },
   };
 </script>

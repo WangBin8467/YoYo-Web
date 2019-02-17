@@ -11,7 +11,7 @@
     <div class="user-info">
       <div class="info">
         <div class="info-img">
-          <template v-if="user.imageUrl.length">
+          <template v-if="user.imageUrl">
             <img :src='`data:image/png;base64,${user.imageUrl}`'
                  class="user-img">
           </template>
@@ -119,7 +119,7 @@
                 </el-input>
               </template>
               <template v-else>
-                <span v-if="userData.remark.length">{{userData.remark}}</span>
+                <span v-if="userData.remark">{{userData.remark}}</span>
                 <span v-else>你还没有介绍自己~</span>
               </template>
             </el-form-item>
@@ -141,25 +141,25 @@
           <span slot="label"><i class="el-icon-message"></i> 我的消息</span>
           <div :class="['like-item',{'borderBottom':index!=likeData.length-1}]"
                v-for="(item,index) in likeData"
-               :key="item.id">
+               :key="item._id">
             <div class="like-user">
               <div class="liker-img"></div>
               <div class="liker-info">
-                <div class="liker-name">{{item.liker_name}}</div>
+                <div class="liker-name">{{item.praiseID}}</div>
                 <div class="liker-createTime">{{item.createTime}}</div>
               </div>
               <div class="liker-detail">
                 <i class="fa fa-thumbs-o-up" style="color: red"></i>&nbsp;了你的帖子
               </div>
             </div>
-            <div class="like-news" @click="toNews(item.newsData.id)">
+            <div class="like-news"
+                 @click="toNews(item.newsID)">
                 <div class="news-name">
-                  {{item.newsData.name}}
+                  {{item.new_docs[0].title}}
                 </div>
-                <span class="news-createTime">{{item.newsData.createTime}}</span>
-                <div class="news-content">
-                  {{item.newsData.content}}
-                </div>
+                <span class="news-createTime">{{item.new_docs[0].createTime}}</span>
+                <div class="news-content"
+                     v-html="item.new_docs[0].content"></div>
               </div>
           </div>
         </el-tab-pane>
@@ -183,12 +183,13 @@
                :key="item._id"
                class="new-item">
             <div class="new-title"
-                 @click="toNewsDetail(item._id)">{{item.title}}</div>
-            <div class="new-content" v-html="item.content"></div>
+                 @click="toNews(item.newsID)">{{item.new_docs[0].title}}</div>
+            <div class="new-content"
+                 v-html="item.new_docs[0].content"></div>
             <div class="new-author">
-              <a>{{item.author}}</a>
+              <a>{{item.new_docs[0].author}}</a>
             </div>
-            <div class="new-time">{{item.createTime}}</div>
+            <div class="new-time">{{item.new_docs[0].createTime}}</div>
           </div>
         </el-tab-pane>
         <el-tab-pane name="privacy">
@@ -288,87 +289,9 @@
           },
         ],
         editForm:false,
-        likeData:[
-          {
-            id:1,
-            liker_img:'',
-            liker_name:'xxx',
-            createTime:'2019-01-21',
-            newsData:{
-              id:1,
-              name:'xxxxxxx',
-              content:'xxxxxxxxxxxxxx',
-              createTime:'2018-12-11',
-            }
-          },
-          {
-            id:2,
-            liker_img:'',
-            liker_name:'xxx',
-            createTime:'2019-01-21',
-            newsData:{
-              id:1,
-              name:'xxxxxxx',
-              content:'xxxxxxxxxxxxxx',
-              createTime:'2018-12-11',
-            }
-          },
-          {
-            id:3,
-            liker_img:'',
-            liker_name:'xxx',
-            createTime:'2019-01-21',
-            newsData:{
-              id:1,
-              name:'xxxxxxx',
-              content:'xxxxxxxxxxxxxx',
-              createTime:'2018-12-11',
-            }
-          },
-          {
-            id:4,
-            liker_img:'',
-            liker_name:'xxx',
-            createTime:'2019-01-21',
-            newsData:{
-              id:1,
-              name:'xxxxxxx',
-              content:'xxxxxxxxxxxxxx',
-              createTime:'2018-12-11',
-            }
-          },
-        ],
+        likeData:[],
         userNews:[],
-        likeNewsData:[
-          {
-            _id:1,
-            title:'xxxxxxxx',
-            content:'xxxxxxxxxxxxxxx',
-            author:'xxxx',
-            createTime:'xxxxxxxx'
-          },
-          {
-            _id:2,
-            title:'xxxxxxxx',
-            content:'xxxxxxxxxxxxxxx',
-            author:'xxxx',
-            createTime:'xxxxxxxx'
-          },
-          {
-            _id:3,
-            title:'xxxxxxxx',
-            content:'xxxxxxxxxxxxxxx',
-            author:'xxxx',
-            createTime:'xxxxxxxx'
-          },
-          {
-            _id:4,
-            title:'xxxxxxxx',
-            content:'xxxxxxxxxxxxxxx',
-            author:'xxxx',
-            createTime:'xxxxxxxx'
-          },
-        ],
+        likeNewsData:[],
         stepActive:1,
         pwdInit:'',
         pwdReset:'',
@@ -392,6 +315,8 @@
     mounted() {
       this.userData=_.cloneDeep(this.user);
       this.getUserNews();
+      this.getUserLike();
+      this.getUserBeLike();
     },
     methods: {
       saveInfo(){
@@ -499,6 +424,22 @@
           })
         }
       },
+
+      getUserLike(){
+        axios.post('/api/praises/getUserLike',{
+          userID:this.user._id
+        }).then(res=>{
+          this.likeNewsData=res.data.result;
+        })
+      },
+
+      getUserBeLike(){
+        axios.post('/api/praises/getUserBeLike',{
+          userID:this.user._id
+        }).then(res=>{
+          this.likeData=res.data.result;
+        })
+      }
     },
   };
 </script>
