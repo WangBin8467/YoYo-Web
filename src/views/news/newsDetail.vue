@@ -185,8 +185,31 @@
     },
     methods: {
       submitComment(){
-        console.clear();
-        console.log(this.commentValue);
+        axios.post('/api/comments/addComment',{
+          userID:this.user._id,
+          newsID:this.newsData._id,
+          username:this.user.name,
+          userAvatar:this.user.imageUrl,
+          content:this.commentValue,
+        }).then(res=>{
+          if (res.data.code===200){
+            this.$message({
+              type:'success',
+              message:'评论成功！'
+            })
+          }else{
+            this.$message.error('评论失败！')
+          } ;
+        })
+      },
+      getCommentAll(){
+        axios.post('/api/comments/getCommentAll',{
+          newsID:this.newsData._id,
+        }).then(res=>{
+          this.commentData=res.data.result;
+          console.clear();
+          console.log(this.commentData);
+        })
       },
       getNewsInfo(){
         axios.post('/api/news/getNewsInfo',{
@@ -194,6 +217,7 @@
         }).then(res=>{
           this.newsData=res.data.result;
           this.getNewsLike();
+          this.getCommentAll();
         })
       },
       addLike(){

@@ -8,39 +8,41 @@
   <div class="news-comment-container">
       <div class="comment" v-for="item in comments">
         <div class="info">
-          <img class="avatar" :src="item.fromAvatar" width="36" height="36"/>
+          <img class="avatar"
+               :src="`data:image/png;base64,${item.comment_avatar}`"
+               width="36"
+               height="36"/>
           <div class="right">
-            <div class="name">{{item.fromName}}</div>
-            <div class="date">{{item.date}}</div>
+            <div class="name">{{item.comment_name}}</div>
+            <div class="date">{{item.createTime}}</div>
           </div>
         </div>
-        <div class="content">{{item.content}}</div>
+        <div class="content">{{item.comment_content}}</div>
         <div class="control">
-        <span class="like" :class="{active: item.isLike}" @click="likeClick(item)">
-          <i class="fa fa-thumbs-o-up"></i>&nbsp;&nbsp;
-          <span class="like-num">{{item.likeNum > 0 ? item.likeNum + '人赞' : '赞'}}</span>
-        </span>
           <span class="comment-reply" @click="showCommentInput(item)">
           <i class="iconfont icon-comment"></i>
           <span>回复</span>
         </span>
         </div>
         <div class="reply">
-          <div class="item" v-for="reply in item.reply">
+          <div class="item" v-for="reply in item.replyList">
             <div class="reply-content">
-              <span class="from-name">{{reply.fromName}}</span><span>: </span>
-              <span class="to-name">@{{reply.toName}}</span>
-              <span>{{reply.content}}</span>
+              <span class="from-name">{{reply.reply_name}}</span><span>: </span>
+              <span class="to-name">@{{reply.reply_to_name}}</span>
+              <span>{{reply.reply_content}}</span>
             </div>
             <div class="reply-bottom">
-              <span>{{reply.date}}</span>
-              <span class="reply-text" @click="showCommentInput(item, reply)">
+              <span>{{reply.reply_createTime}}</span>
+              <span class="reply-text"
+                    @click="showCommentInput(item, reply)">
               <i class="iconfont icon-comment"></i>
               <span>回复</span>
             </span>
             </div>
           </div>
-          <div class="write-reply" v-if="item.reply.length > 0" @click="showCommentInput(item)">
+          <div class="write-reply"
+               v-if="item.replyList.length > 0"
+               @click="showCommentInput(item)">
             <i class="el-icon-edit"></i>
             <span class="add-comment">添加新评论</span>
           </div>
