@@ -6,7 +6,9 @@
 */
 <template>
   <div class="news-comment-container">
-      <div class="comment" v-for="item in comments">
+      <div class="comment"
+           v-for="(item,index) in comments"
+           :key="item._id">
         <div class="info">
           <img class="avatar"
                :src="`data:image/png;base64,${item.comment_avatar}`"
@@ -14,18 +16,20 @@
                height="36"/>
           <div class="right">
             <div class="name">{{item.comment_name}}</div>
-            <div class="date">{{item.createTime}}</div>
+            <div class="date">{{index+1}}楼 · {{item.createTime}}</div>
           </div>
         </div>
         <div class="content">{{item.comment_content}}</div>
         <div class="control">
           <span class="comment-reply" @click="showCommentInput(item)">
-          <i class="iconfont icon-comment"></i>
-          <span>回复</span>
-        </span>
+            <i class="iconfont icon-comment"></i>
+            <span>回复</span>
+          </span>
         </div>
         <div class="reply">
-          <div class="item" v-for="reply in item.replyList">
+          <div class="item"
+               v-for="(reply,ind) in item.replyList"
+               :key="reply.reply_id">
             <div class="reply-content">
               <span class="from-name">{{reply.reply_name}}</span><span>: </span>
               <span class="to-name">@{{reply.reply_to_name}}</span>
@@ -47,7 +51,9 @@
             <span class="add-comment">添加新评论</span>
           </div>
           <transition name="fade">
-            <div class="input-wrapper" v-if="showItemId === item.id">
+            <div class="input-wrapper"
+                 ref="item.comment_name"
+                 v-if="showItemId === item.id">
               <el-input class="gray-bg-input"
                         v-model="inputComment"
                         type="textarea"
@@ -71,6 +77,9 @@
 </template>
 
 <script>
+  import axios from 'axios';
+  import { mapState } from 'vuex'
+  
   export default {
     name: 'news-comment',
     props: {
@@ -86,7 +95,9 @@
         showItemId: ''
       }
     },
-    computed: {},
+    computed: {
+      ...mapState(['user','showUserDialog','isLogin']),
+    },
     created() {
     },
     mounted() {},
@@ -126,6 +137,16 @@
           this.inputComment = '';
         }
         this.showItemId = item.id;
+      },
+
+      addReply(id,name){
+        axios.post('/api/comments/addReply',{
+          userID:this.user._id,
+          userName:this.user.name,
+          replyToUid:id,
+          reply_to_name:name,
+          reply_content:this.inputComment,
+        })
       }
     },
   };

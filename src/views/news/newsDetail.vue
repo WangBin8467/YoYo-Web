@@ -197,9 +197,11 @@
               type:'success',
               message:'评论成功！'
             })
+            this.getCommentAll();
+            this.commentValue='';
           }else{
             this.$message.error('评论失败！')
-          } ;
+          }
         })
       },
       getCommentAll(){
