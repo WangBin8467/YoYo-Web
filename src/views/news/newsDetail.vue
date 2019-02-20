@@ -209,8 +209,6 @@
           newsID:this.newsData._id,
         }).then(res=>{
           this.commentData=res.data.result;
-          console.clear();
-          console.log(this.commentData);
         })
       },
       getNewsInfo(){

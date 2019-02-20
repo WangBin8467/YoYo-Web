@@ -38,14 +38,14 @@
             <div class="reply-bottom">
               <span>{{reply.reply_createTime}}</span>
               <span class="reply-text"
-                    @click="showCommentInput(item, reply)">
+                    @click="showCommentInput(reply,reply,item._id)">
               <i class="iconfont icon-comment"></i>
               <span>回复</span>
             </span>
             </div>
           </div>
           <div class="write-reply"
-               v-if="item.replyList.length > 0"
+               v-if="item.replyList.length >0"
                @click="showCommentInput(item)">
             <i class="el-icon-edit"></i>
             <span class="add-comment">添加新评论</span>
@@ -53,7 +53,7 @@
           <transition name="fade">
             <div class="input-wrapper"
                  ref="item.comment_name"
-                 v-if="showItemId === item.id">
+                 v-if="showInput">
               <el-input class="gray-bg-input"
                         v-model="inputComment"
                         type="textarea"
@@ -67,7 +67,7 @@
                 <el-button class="btn"
                            type="success"
                            round
-                           @click="commitComment">确定</el-button>
+                           @click="commitComment(index)">确定</el-button>
               </div>
             </div>
           </transition>
@@ -92,7 +92,12 @@
     data() {
       return {
         inputComment: '',
-        showItemId: ''
+        showInput: false,
+        checkComment:{
+          id:null,
+          name:'',
+          replyList:[],
+        },
       }
     },
     computed: {
@@ -102,52 +107,61 @@
     },
     mounted() {},
     methods: {
-      //点赞
-      likeClick(item) {
-        if (item.isLike === null) {
-          Vue.$set(item, "isLike", true);
-          item.likeNum++
-        } else {
-          if (item.isLike) {
-            item.likeNum--
-          } else {
-            item.likeNum++
-          }
-          item.isLike = !item.isLike;
-        }
-      },
-
       //点击取消按钮
       cancel() {
-        this.showItemId = '';
+        this.showInput =false;
+        this.inputComment='';
+        this.checkComment={};
       },
 
       //提交评论
-      commitComment() {
-        console.log(this.inputComment);
+      commitComment(index) {
+        if (!this.inputComment){
+          this.$message.error('请输入你的评论~')
+        } else{
+          axios.post('/api/comments/addReply',{
+            userID:this.user._id,
+            userName:this.user.name,
+            reply_to_uid:this.checkComment.id,
+            reply_to_name:this.checkComment.name,
+            reply_content:this.inputComment,
+            replyList:this.checkComment.replyList,
+            cid:this.checkComment.cid,
+          }).then(res=>{
+            this.comments[index].replyList.push(res.data.result);
+            this.$message({
+              type:'success',
+              message:'评论成功！'
+            })
+            this.checkComment={};
+            this.showInput=false;
+          })
+        }
       },
       
       //  点击评论按钮显示输入框
-      //  item: 当前大评论
-      //  reply: 当前回复的评论
-      showCommentInput(item, reply) {
+      //  id: 当前评论的用户id
+      //  name: 当前评论的用户姓名
+      //  reply: 子回复或子评论
+      showCommentInput(item,reply,cid) {
+        this.showInput=true;
         if (reply) {
-          this.inputComment = "@" + reply.fromName + " ";
+          console.clear();
+          console.log('1212')
+          this.checkComment.id=item.reply_uid;
+          this.checkComment.name=item.reply_name;
+          this.checkComment.replyList=item.replyList;
+          this.checkComment.cid=cid;
+          this.inputComment = "@" + item.reply_name + "："+" ";
+          console.log(this.checkComment)
         } else {
+          this.checkComment.id=item.comment_uid;
+          this.checkComment.name=item.comment_name;
+          this.checkComment.replyList=item.replyList;
+          this.checkComment.cid=item._id;
           this.inputComment = '';
         }
-        this.showItemId = item.id;
       },
-
-      addReply(id,name){
-        axios.post('/api/comments/addReply',{
-          userID:this.user._id,
-          userName:this.user.name,
-          replyToUid:id,
-          reply_to_name:name,
-          reply_content:this.inputComment,
-        })
-      }
     },
   };
 </script>
