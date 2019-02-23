@@ -60,7 +60,7 @@
             </div>
             <el-dropdown v-else>
                 <div class="user-img">
-                  <template v-if="user.imageUrl.length">
+                  <template v-if="user.imageUrl">
                     <img :src='`data:image/png;base64,${user.imageUrl}`'>
                   </template>
                   <template v-else>
@@ -247,8 +247,8 @@
         showSvg: true,
         activeTab: 'login',
         loginForm:{
-          name:'groot',
-          password:'123456'
+          name:'',
+          password:''
         },
         loginRules:{
           name:{
@@ -315,7 +315,6 @@
     created() {
     },
     mounted() {},
-    mounted() {},
     methods: {
       toHome(){
         this.$router.push({path:'/Home'});
@@ -342,7 +341,7 @@
         return pass;
       },
       login(){
-        let pass=this.loginForm.name.length>0&&this.loginForm.password.length>0;
+        let pass=this.loginForm.name&&this.loginForm.password;
         if(pass){
             axios.post('/api/users/login',{...this.loginForm}).then(res=>{
               if(res.data.code===200){
@@ -371,10 +370,10 @@
                 type:'success',
                 message:'注册成功!'
               })
-              this.showDialog=false;
+              this.$store.commit('handleDialog',false);
               this.$store.commit('userLogin',res.data.result.user);
             }else{
-              this.$message.error(res.data.msg)
+              this.$message.error(res.data.msg);
             }
           }).catch(err=>{
             this.$message.error(err.msg)

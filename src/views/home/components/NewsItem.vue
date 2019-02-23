@@ -100,7 +100,7 @@
            -webkit-line-clamp: 2;
            overflow: hidden;
            line-height: 1.5;
-           max-height: 130px;
+           max-height: 60px;
          }
          .new-author{
            float: left;

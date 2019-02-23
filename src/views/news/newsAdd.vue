@@ -106,6 +106,10 @@
                   message:'发布成功!'
                 })
                 this.form={};
+                const newID=res.data.result.news_id;
+                console.clear();
+                console.log(res.data.result.news_id);
+                this.$router.push({path:`news/id/${newID}`});
               }else{
                 this.$message.error(res.data.msg)
               }

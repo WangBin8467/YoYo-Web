@@ -45,7 +45,7 @@
             </div>
           </div>
           <div class="write-reply"
-               v-if="item.replyList.length >0"
+               v-if="item.replyList"
                @click="showCommentInput(item)">
             <i class="el-icon-edit"></i>
             <span class="add-comment">添加新评论</span>
@@ -145,9 +145,7 @@
       //  reply: 子回复或子评论
       showCommentInput(item,reply,cid) {
         this.showInput=true;
-        if (reply) {
-          console.clear();
-          console.log('1212')
+        if (reply&&cid) {
           this.checkComment.id=item.reply_uid;
           this.checkComment.name=item.reply_name;
           this.checkComment.replyList=item.replyList;

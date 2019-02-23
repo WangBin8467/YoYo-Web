@@ -6,10 +6,17 @@
 */
 <template>
   <div class="Lunbo-container">
-    <el-carousel height="200px" :interval="4000" type="card">
-      <el-carousel-item v-for="item in [1,2,3,4]"
-                        :key="item">
-        <h3>{{ item }}</h3>
+    <el-carousel height="200px"
+                 :interval="4000"
+                 type="card">
+      <el-carousel-item>
+        <img src="../_img/tab-1.jpg" height="192px">
+      </el-carousel-item>
+      <el-carousel-item>
+        <img src="../_img/tab-2.jpg" height="200px" width="366px">
+      </el-carousel-item>
+      <el-carousel-item>
+        <img src="../_img/tab-3.jpg" height="200px">
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -22,7 +29,22 @@
     mixins: [],
     components: {},
     data() {
-      return {};
+      return {
+        imgList:[
+          {
+            id:1,
+            imgUrl:'../_img/tab-1.jpg'
+          },
+          {
+            id:2,
+            imgUrl:'../_img/tab-2.jpg'
+          },
+          {
+            id:3,
+            imgUrl:'../_img/tab-3.jpg'
+          },
+        ]
+      };
     },
     computed: {},
     created() {
@@ -36,6 +58,7 @@
 <style lang="scss">
      .Lunbo-container{
        border-radius: 4px;
+       margin-top: 10px;
        .el-carousel {
          border-radius: 4px;
          .el-carousel__item h3 {

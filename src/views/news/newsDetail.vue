@@ -268,7 +268,9 @@
        padding: 10px 0;
        position: relative;
        .news-main{
-         margin: 20px 0;
+         margin: 20px 30px;
+         padding: 10px;
+         background-color: #f4f5f5;
          .news-title{
            font-size: 22px;
            font-weight: bold;

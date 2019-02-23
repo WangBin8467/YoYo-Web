@@ -31,18 +31,18 @@
                      class="img-btn">更改头像</el-button>
         </div>
         <div class="user-txt">
-          <span class="user-name">Groot</span>
+          <span class="user-name">{{user.name}}</span>
           <div class="user-ul">
             <div>
               <span>{{userNews.length}}</span>
               <span>帖子</span>
             </div>
             <div>
-              <span>2</span>
+              <span>{{likeNewsData.length}}</span>
               <span>赞</span>
             </div>
             <div>
-              <span>0</span>
+              <span>{{likeData.length}}</span>
               <span>收到的赞</span>
             </div>
           </div>
@@ -89,9 +89,9 @@
                          :disabled="!editForm">
                 <el-option
                         v-for="item in degreeOptions"
-                        :key="item.value"
+                        :key="String(item.value)"
                         :label="item.label"
-                        :value="item.value">
+                        :value="String(item.value)">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -557,7 +557,7 @@
              position: relative;
              border-radius: 4px;
              cursor: pointer;
-             border: 1px solid #ebeef5;
+             border: 1px solid #f9f9fb;
              background-color: #fff;
              color: #303133;
              -webkit-transition: .3s;
@@ -583,6 +583,7 @@
                -webkit-box-orient: vertical;
                -webkit-line-clamp: 3;
                overflow: hidden;
+               max-height: 60px;
              }
            }
            .like-news:hover{

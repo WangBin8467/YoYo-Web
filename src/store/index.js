@@ -21,14 +21,16 @@ const store=new Vuex.Store({
     //更新用户信息
     userLogin(state, user) {
       _.assign(state.user,user)
-      if(user._id>0){
+      if(user._id){
         state.isLogin=true;
       }else{
         state.isLogin=false;
       }
     },
     handleDialog(state,val){
-      state.showUserDialog=val
+      state.showUserDialog=val;
+      console.clear();
+      console.log(state);
     }
   }
 })
