@@ -9,26 +9,31 @@
     
     <!--首页content start-->
     <div class="home-content">
+      <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
+        <el-radio-button :label="false">展开</el-radio-button>
+        <el-radio-button :label="true">收起</el-radio-button>
+      </el-radio-group>
       <div class="content-nav">
-        <el-menu :default-active="activeIndex"
-                 :router="true">
-          <el-menu-item index="/">
+        <el-menu :collapse="isCollapse"
+                 :router="true"
+                 :default-active="activeIndex">
+          <el-menu-item index="News">
             <i class="el-icon-menu"></i>
             <span slot="title">为你推荐</span>
           </el-menu-item>
-          <el-menu-item index="2">
+          <el-menu-item index="Trading">
             <i class="el-icon-menu"></i>
             <span slot="title">闲置交易</span>
           </el-menu-item>
-          <el-menu-item index="3">
+          <el-menu-item index="Graduation">
             <i class="el-icon-document"></i>
             <span slot="title">毕业贩卖</span>
           </el-menu-item>
-          <el-menu-item index="4">
+          <el-menu-item index="Find">
             <i class="el-icon-setting"></i>
             <span slot="title">寻物启事</span>
           </el-menu-item>
-          <el-menu-item index="5">
+          <el-menu-item index="Corner">
             <i class="el-icon-setting"></i>
             <span slot="title">树洞角落</span>
           </el-menu-item>
@@ -73,13 +78,15 @@
       Lunbo,
     },
     data() {
-      return {};
+      return {
+        isCollapse:true
+      };
     },
     computed: {
-      activeIndex() {
+      activeIndex(){
         const paths = this.$route.path.split('/');
         return paths[paths.length - 1];
-      },
+      }
     },
     created() {
     },

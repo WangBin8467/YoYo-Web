@@ -17,11 +17,37 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home,
+      redirect: { name: 'NewsItem' },
       children:[
         {
-          path:'/',
+          path:'News',
           name:'NewsItem',
           component:NewsItem,
+          props: true,
+        },
+        {
+          path:'Trading',
+          name:'NewsItem',
+          component:NewsAdd,
+          props: true,
+        },
+        {
+          path:'Graduation',
+          name:'NewsItem',
+          component:NewsDetail,
+          props: true,
+        },
+        {
+          path:'Find',
+          name:'NewsItem',
+          component:UserCenter,
+          props: true,
+        },
+        {
+          path:'Corner',
+          name:'NewsItem',
+          component:UserCenter,
+          props: true,
         },
       ]
     },
