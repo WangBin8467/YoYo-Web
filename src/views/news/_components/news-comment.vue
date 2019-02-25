@@ -10,10 +10,22 @@
            v-for="(item,index) in comments"
            :key="item._id">
         <div class="info">
-          <img class="avatar"
-               :src="`data:image/png;base64,${item.comment_avatar}`"
-               width="36"
-               height="36"/>
+          <template v-if="item.comment_avatar">
+            <img class="avatar"
+                 :src="`data:image/png;base64,${item.comment_avatar}`"
+                 width="36"
+                 height="36"/>
+          </template>
+          <template v-else>
+            <img  v-if="+user.sex===0"
+                  src="../../../assets/home/头像 男孩.png"
+                  width="36"
+                  height="36">
+            <img  v-else
+                  src="../../../assets/home/头像 女孩.png"
+                  width="36"
+                  height="36">
+          </template>
           <div class="right">
             <div class="name">{{item.comment_name}}</div>
             <div class="date">{{index+1}}楼 · {{item.createTime}}</div>

@@ -395,6 +395,12 @@
         })
       },
       search: _.debounce(function () {
+        axios.post('/api/news/search',{
+          value:this.searchValue,
+        }).then(res=>{
+          console.clear();
+          console.log(res);
+        })
       },300),
       toAddNews(){
         this.$router.push({path:'/News/add'})

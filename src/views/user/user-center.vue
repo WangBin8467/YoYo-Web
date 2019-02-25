@@ -174,7 +174,7 @@
               <span style="color: #e6990c">{{item.createTime}}</span> 发布了
               <span style="color: #e6990c">"{{item.title}}"</span>
             </div>
-            <div class="news-like">收获了12个赞</div>
+            <div class="news-like">收获了{{item.title.length-10}}个赞</div>
           </el-card>
         </el-tab-pane>
         <el-tab-pane name="like">

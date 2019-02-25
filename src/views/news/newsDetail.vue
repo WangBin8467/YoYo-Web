@@ -53,28 +53,28 @@
     <!--帖子评论区 END-->
     
     <!--侧边作者信息 START-->
-    <div class="news-author">
-      <el-card shadow="always">
-        <div class="author-sup"></div>
-       <div class="author-name">
-         <div>
-           <span>{{authorData.name}}&nbsp;</span>
-           <span>
-             <i v-if="authorData.sex===0"
-                class="fa fa-mars boyIcon"></i>
-             <i v-else
-                class="fa fa-mercury girlIcon"></i>
-           </span>&nbsp;&nbsp;
-           <span class="author-degree">{{authorData.degree}}</span>
-         </div>
-         <span><i class="fa fa-heart-o focus"></i></span>
-       </div>
-       <div class="author-info">
-         <span v-if="authorData.remark.length>0">{{authorData.remark}}</span>
-         <span v-else>这个人什么也没留下~</span>
-       </div>
-      </el-card>
-    </div>
+    <!--<div class="news-author">-->
+      <!--<el-card shadow="always">-->
+        <!--<div class="author-sup"></div>-->
+       <!--<div class="author-name">-->
+         <!--<div>-->
+           <!--<span>{{authorData.name}}&nbsp;</span>-->
+           <!--<span>-->
+             <!--<i v-if="authorData.sex===0"-->
+                <!--class="fa fa-mars boyIcon"></i>-->
+             <!--<i v-else-->
+                <!--class="fa fa-mercury girlIcon"></i>-->
+           <!--</span>&nbsp;&nbsp;-->
+           <!--<span class="author-degree">{{authorData.degree}}</span>-->
+         <!--</div>-->
+         <!--<span><i class="fa fa-heart-o focus"></i></span>-->
+       <!--</div>-->
+       <!--<div class="author-info">-->
+         <!--<span v-if="authorData.remark.length>0">{{authorData.remark}}</span>-->
+         <!--<span v-else>这个人什么也没留下~</span>-->
+       <!--</div>-->
+      <!--</el-card>-->
+    <!--</div>-->
     <!--侧边作者信息 END-->
   
     <!--侧边导航 START-->
