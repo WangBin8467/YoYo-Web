@@ -99,6 +99,7 @@
               ...this.form,
               userID:this.user._id,
               author:this.user.name,
+              imageUrl:this.user.imageUrl
             }).then(res=>{
               if(res.data.code===200){
                 this.$message({
@@ -107,8 +108,6 @@
                 })
                 this.form={};
                 const newID=res.data.result.news_id;
-                console.clear();
-                console.log(res.data.result.news_id);
                 this.$router.push({path:`news/id/${newID}`});
               }else{
                 this.$message.error(res.data.msg)

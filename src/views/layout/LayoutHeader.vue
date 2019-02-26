@@ -247,8 +247,8 @@
         showSvg: true,
         activeTab: 'login',
         loginForm:{
-          name:'',
-          password:''
+          name:'尚木',
+          password:'123456789'
         },
         loginRules:{
           name:{

@@ -226,7 +226,10 @@
             axios.post('/api/praises/addLike',{
               praiseID:this.user._id,
               bePraiseID:this.newsData.userID,
+              praiseUsername:this.user.name,
               newsID:this.newsData._id,
+              praiseImage:this.user.imageUrl,
+              bePraiseImage:this.newsData.imageUrl
             }).then(res=>{
               this.$message({
                 type:'success',

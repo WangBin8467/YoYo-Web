@@ -42,7 +42,7 @@
               <span>赞</span>
             </div>
             <div>
-              <span>{{likeData.length}}</span>
+              <span>{{readNewsData.length+unReadNewsData.length}}</span>
               <span>收到的赞</span>
             </div>
           </div>
@@ -139,21 +139,35 @@
         </el-tab-pane>
         <el-tab-pane name="messages">
           <span slot="label"><i class="el-icon-message"></i> 我的消息</span>
-          <div :class="['like-item',{'borderBottom':index!=likeData.length-1}]"
-               v-for="(item,index) in likeData"
+          <el-switch
+                  class="switch-type"
+                  v-model="readType"
+                  active-text="已读"
+                  inactive-text="未读">
+          </el-switch>
+          <div :class="['like-item',{'borderBottom':index!=readNewsData.length-1}]"
+               v-for="(item,index) in readNewsData"
+               v-if="readType"
                :key="item._id">
             <div class="like-user">
-              <div class="liker-img"></div>
+              <div class="liker-img">
+                <img :src="`data:image/png;base64,${item.praiseImage}`"
+                     v-if="item.praiseImage"
+                     width="40px">
+                <img v-else
+                     src="../../assets/home/头像 男孩.png"
+                     width="40px">
+              </div>
               <div class="liker-info">
-                <div class="liker-name">{{item.praiseID}}</div>
+                <div class="liker-name">{{item.praiseUsername}}</div>
                 <div class="liker-createTime">{{item.createTime}}</div>
               </div>
               <div class="liker-detail">
-                <i class="fa fa-thumbs-o-up" style="color: red"></i>&nbsp;了你的帖子
+                <i class="fa fa-thumbs-o-up"></i>&nbsp;了你的帖子
               </div>
             </div>
             <div class="like-news"
-                 @click="toNews(item.newsID)">
+                 @click="toNews(item.newsID,item._id)">
                 <div class="news-name">
                   {{item.new_docs[0].title}}
                 </div>
@@ -161,6 +175,37 @@
                 <div class="news-content"
                      v-html="item.new_docs[0].content"></div>
               </div>
+          </div>
+          <div :class="['like-item',{'borderBottom':index!=unReadNewsData.length-1}]"
+               v-for="(item,index) in unReadNewsData"
+               v-else
+               :key="item._id">
+            <div class="like-user">
+              <div class="liker-img">
+                <img :src="`data:image/png;base64,${item.praiseImage}`"
+                     v-if="item.praiseImage"
+                     width="40px">
+                <img v-else
+                     src="../../assets/home/头像 男孩.png"
+                     width="40px">
+              </div>
+              <div class="liker-info">
+                <div class="liker-name">{{item.praiseUsername}}</div>
+                <div class="liker-createTime">{{item.createTime}}</div>
+              </div>
+              <div class="liker-detail">
+                <i class="fa fa-thumbs-o-up"></i>&nbsp;了你的帖子
+              </div>
+            </div>
+            <div class="like-news"
+                 @click="toNews(item.newsID,item._id)">
+              <div class="news-name">
+                {{item.new_docs[0].title}}
+              </div>
+              <span class="news-createTime">{{item.new_docs[0].createTime}}</span>
+              <div class="news-content"
+                   v-html="item.new_docs[0].content"></div>
+            </div>
           </div>
         </el-tab-pane>
         <el-tab-pane name="news">
@@ -289,7 +334,9 @@
           },
         ],
         editForm:false,
-        likeData:[],
+        readType:false,
+        readNewsData:[],
+        unReadNewsData:[],
         userNews:[],
         likeNewsData:[],
         stepActive:1,
@@ -308,7 +355,7 @@
           return this.$route.params.type;
         },
         set() {}
-      }
+      },
     },
     created() {
     },
@@ -332,8 +379,11 @@
           this.$message.error('操作失败！')
         })
       },
-      toNews(id){
-        this.$router.push({path:`/News/id/${id}`});
+      toNews(newsID,id){
+        axios.post('/api/praises/read',{
+          praiseID:id
+        }).then(res=>{})
+        this.$router.push({path:`/News/id/${newsID}`});
       },
       checkPwd(){
         if(this.pwdInit===this.user.password){
@@ -437,7 +487,9 @@
         axios.post('/api/praises/getUserBeLike',{
           userID:this.user._id
         }).then(res=>{
-          this.likeData=res.data.result;
+          const data=res.data.result;
+          this.readNewsData=data.filter(i=>i.isRead);
+          this.unReadNewsData=data.filter(i=>i.isRead===false);
         })
       }
     },
@@ -513,6 +565,7 @@
        .user-content{
          margin: 15px 0 30px;
          position: relative;
+         min-height: 340px;
          .user-form{
            padding: 0 20px;
          }
@@ -521,6 +574,9 @@
          }
          .close-btn{
            margin-left: 15px;
+         }
+         .switch-type{
+          float: right;
          }
          .like-item{
            margin: 0 20px;
@@ -533,7 +589,6 @@
              .liker-img{
                width: 40px;
                height: 40px;
-               background-color: red;
              }
              .liker-info{
                margin-left: 20px;
@@ -672,6 +727,9 @@
 <style lang="scss">
      .user-center-container{
        .user-content{
+         .el-tabs__content{
+           min-height: 340px !important;
+         }
          .user-form{
            .el-input{
              width: 220px !important;
