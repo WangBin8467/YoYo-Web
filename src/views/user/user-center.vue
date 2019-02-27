@@ -145,9 +145,8 @@
                   active-text="已读"
                   inactive-text="未读">
           </el-switch>
-          <div :class="['like-item',{'borderBottom':index!=readNewsData.length-1}]"
-               v-for="(item,index) in readNewsData"
-               v-if="readType"
+          <div :class="['like-item',{'borderBottom':index!=newsData.length-1}]"
+               v-for="(item,index) in newsData"
                :key="item._id">
             <div class="like-user">
               <div class="liker-img">
@@ -176,37 +175,8 @@
                      v-html="item.new_docs[0].content"></div>
               </div>
           </div>
-          <div :class="['like-item',{'borderBottom':index!=unReadNewsData.length-1}]"
-               v-for="(item,index) in unReadNewsData"
-               v-else
-               :key="item._id">
-            <div class="like-user">
-              <div class="liker-img">
-                <img :src="`data:image/png;base64,${item.praiseImage}`"
-                     v-if="item.praiseImage"
-                     width="40px">
-                <img v-else
-                     src="../../assets/home/头像 男孩.png"
-                     width="40px">
-              </div>
-              <div class="liker-info">
-                <div class="liker-name">{{item.praiseUsername}}</div>
-                <div class="liker-createTime">{{item.createTime}}</div>
-              </div>
-              <div class="liker-detail">
-                <i class="fa fa-thumbs-o-up"></i>&nbsp;了你的帖子
-              </div>
-            </div>
-            <div class="like-news"
-                 @click="toNews(item.newsID,item._id)">
-              <div class="news-name">
-                {{item.new_docs[0].title}}
-              </div>
-              <span class="news-createTime">{{item.new_docs[0].createTime}}</span>
-              <div class="news-content"
-                   v-html="item.new_docs[0].content"></div>
-            </div>
-          </div>
+          <div v-if="!readType&&newsData.length<1" class="noNews-tip">您暂无未读消息~</div>
+          <div v-if="readType&&newsData.length<1" class="noNews-tip">您暂无已读消息~</div>
         </el-tab-pane>
         <el-tab-pane name="news">
           <span slot="label"><i class="el-icon-tickets"></i> 我的帖子</span>
@@ -356,6 +326,13 @@
         },
         set() {}
       },
+      newsData(){
+        if (this.readType){
+          return this.readNewsData;
+        } else{
+          return this.unReadNewsData;
+        }
+      }
     },
     created() {
     },
@@ -382,8 +359,10 @@
       toNews(newsID,id){
         axios.post('/api/praises/read',{
           praiseID:id
-        }).then(res=>{})
-        this.$router.push({path:`/News/id/${newsID}`});
+        }).then(res=>{
+          this.$router.push({path:`/News/id/${newsID}`});
+          this.getUserBeLike();
+        })
       },
       checkPwd(){
         if(this.pwdInit===this.user.password){
@@ -645,6 +624,12 @@
              transform: translate(0, -2px);
              box-shadow: 0 10px 20px -10px #6a6a6a;
            }
+         }
+         .noNews-tip{
+           text-align: center;
+           padding-top: 40px;
+           color: #c3c3c3;
+           font-size: 16px;
          }
          .news-item{
            margin: 5px 0;

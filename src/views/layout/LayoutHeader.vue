@@ -27,14 +27,24 @@
             </div>
           </div>
           <div class="header-search">
-            <el-input v-model="searchValue"
-                      placeholder="请输入内容"
-                      size="medium"
-                      clearable>
-              <el-button slot="append"
-                         icon="el-icon-search"
-                         @click="search"></el-button>
-            </el-input>
+            <el-select
+                    v-model="searchValue"
+                    multiple
+                    filterable
+                    remote
+                    clearable
+                    reserve-keyword
+                    placeholder="请输入关键词"
+                    :remote-method="remoteMethod"
+                    :loading="loading"
+                    @change="handleSelect">
+              <el-option
+                      v-for="item in searchList"
+                      :key="item._id"
+                      :label="item.title"
+                      :value="item._id">
+              </el-option>
+            </el-select>
           </div>
           <div class="header-user">
             <div class="user-news">
@@ -307,6 +317,10 @@
           },
         ],
         showCenter:false,
+        searchList:[],
+        searchCount:0,
+        timeout:null,
+        loading:false
       };
     },
     computed: {
@@ -394,14 +408,26 @@
           }
         })
       },
-      search: _.debounce(function () {
-        axios.post('/api/news/search',{
-          value:this.searchValue,
-        }).then(res=>{
-          console.clear();
-          console.log(res);
-        })
-      },300),
+      remoteMethod(query) {
+        if (query !== '') {
+          this.loading = true;
+          axios.post('/api/news/search',{
+            value:query,
+          }).then(res=>{
+            this.searchList=res.data.result.data;
+            this.searchCount=res.data.result.count;
+          })
+          setTimeout(() => {
+            this.loading = false;
+          }, 200);
+        } else {
+          this.searchList = [];
+        }
+      },
+      handleSelect(val){
+        this.$router.push({path:`news/id/${val}`});
+        this.searchValue='';
+      },
       toAddNews(){
         this.$router.push({path:'/News/add'})
       }
