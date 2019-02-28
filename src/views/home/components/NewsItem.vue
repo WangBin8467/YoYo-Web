@@ -20,6 +20,15 @@
       </div>
       <div class="new-time">{{item.createTime}}</div>
     </div>
+    <div class="news-page">
+      <el-pagination
+              background
+              @current-change="handleCurrentChange"
+              :page-size="filterForm.pageSize"
+              layout="total, prev, pager, next, jumper"
+              :total="totalCount">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -39,8 +48,10 @@
         filterForm:{
           sort:-1,
           page:1,
-          pageSize:5,
-        }
+          pageSize:7,
+          type:-1
+        },
+        totalCount:0
       };
     },
     computed: {},
@@ -56,7 +67,12 @@
       getNewsList(){
         axios.get('api/news/getNewsList',{...this.filterForm}).then(res=>{
           this.data=res.data.result.data;
+          this.totalCount=res.data.result.count;
         })
+      },
+      handleCurrentChange(val){
+        this.filterForm.page=val;
+        this.getNewsList();
       }
     },
   };
@@ -117,6 +133,10 @@
            color: #888;
            font-size: 13px;
          }
+       }
+       .news-page{
+         margin: 30px 0;
+         text-align: center;
        }
      }
 </style>

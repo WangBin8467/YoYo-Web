@@ -6,6 +6,7 @@
 */
 <template>
   <div :class="['LayoutHeader-container',{'hiddenSvg':isLogin||!showSvg}]">
+    
     <!--首页导航 start-->
     <div class="nav-top">
       <div class="home-top"></div>
@@ -95,7 +96,6 @@
     </div>
     <!--首页导航 end-->
     
-  
     <!--介绍transiton start-->
     <transition name="el-zoom-in-top">
       <div class="home-svg" v-if="!isLogin&&showSvg">
@@ -121,7 +121,7 @@
       </div>
     </transition>
     <!--介绍transiton end-->
-  
+    
     <!--登录注册弹窗 start-->
     <div class="user-dialog">
       <el-dialog :visible.sync="showUserDialog"
@@ -219,13 +219,13 @@
       </el-dialog>
     </div>
     <!--登录注册弹窗 end-->
+    
   </div>
 </template>
 
 <script>
   import axios from 'axios';
   import { mapState } from 'vuex'
-  
   
   export default {
     name: 'LayoutHeader',
@@ -427,6 +427,7 @@
       handleSelect(val){
         this.$router.push({path:`news/id/${val}`});
         this.searchValue='';
+        this.searchList = [];
       },
       toAddNews(){
         this.$router.push({path:'/News/add'})
@@ -451,14 +452,15 @@
            box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.1), 0 1px rgba(0, 0, 0, 0.1);
            .home-header {
              height: 64px;
-             line-height: 64px;
              width: 1140px;
              margin: 0 auto;
              display: flex;
              justify-content: space-between;
+             align-items: center;
              .header-title {
                display: flex;
                flex-direction: row;
+               margin-top: 70px;
                .header-logo {
                  width: 150px;
                  height: 100%;
