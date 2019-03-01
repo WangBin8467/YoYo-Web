@@ -28,25 +28,25 @@ export default new Router({
         {
           path:'Trading',
           name:'NewsItem',
-          component:NewsAdd,
+          component:NewsItem,
           props: true,
         },
         {
           path:'Graduation',
           name:'NewsItem',
-          component:NewsDetail,
+          component:NewsItem,
           props: true,
         },
         {
           path:'Find',
           name:'NewsItem',
-          component:UserCenter,
+          component:NewsItem,
           props: true,
         },
         {
           path:'Corner',
           name:'NewsItem',
-          component:UserCenter,
+          component:NewsItem,
           props: true,
         },
       ]

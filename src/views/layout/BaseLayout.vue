@@ -50,9 +50,12 @@
 
 <style lang="scss" scoped>
      .BaseLayout-container{
-       height: 100%;
+       min-height: 100%;
+       display: flex;
+       flex-direction: column;
         .main-container{
           background-color: #f4f5f5;
+          flex: 1;
           .home-to-top {
             position: fixed;
             width: 45px;

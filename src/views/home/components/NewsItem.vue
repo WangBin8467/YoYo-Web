@@ -7,9 +7,14 @@
 <template>
   <div class="NewsItem-container">
     <div class="news-header">
-      <h5>为你推荐</h5>
+      <h5>{{NEWS_TYPE[newsInfo].name}}</h5>
+    </div>
+    <div v-if="!data.length"
+         class="noData-tip">
+      数据为空~
     </div>
     <div v-for="(item,index) in data"
+         v-else
          :key="item._id"
          class="new-item">
       <div class="new-title"
@@ -35,6 +40,29 @@
 <script>
   import axios from 'axios';
   
+  const NEWS_TYPE={
+    News:{
+      name:'为你推荐',
+      id:-1,
+    },
+    Trading:{
+      name:'闲置交易',
+      id:1,
+    },
+    Graduation:{
+      name:'毕业贩卖',
+      id:2,
+    },
+    Find:{
+      name:'寻物启事',
+      id:3,
+    },
+    Corner:{
+      name:'树洞角落',
+      id:4,
+    },
+  }
+  
   export default {
     name: 'NewsItem',
     props: {
@@ -48,13 +76,25 @@
         filterForm:{
           sort:-1,
           page:1,
-          pageSize:7,
+          pageSize:6,
           type:-1
         },
-        totalCount:0
+        totalCount:0,
+        NEWS_TYPE,
       };
     },
-    computed: {},
+    computed: {
+      newsInfo(){
+        const paths = this.$route.path.split('/');
+        return paths[paths.length - 1];
+      }
+    },
+    watch:{
+      newsInfo(newVal, oldVal){
+        this.filterForm.type=this.NEWS_TYPE[newVal].id;
+        this.getNewsList()
+      }
+    },
     created() {
     },
     mounted() {
@@ -65,7 +105,8 @@
         this.$router.push({path:`news/id/${id}`});
       },
       getNewsList(){
-        axios.get('api/news/getNewsList',{...this.filterForm}).then(res=>{
+        this.filterForm.type=this.NEWS_TYPE[this.newsInfo].id;
+        axios.post('api/news/getNewsList', {...this.filterForm}).then(res=>{
           this.data=res.data.result.data;
           this.totalCount=res.data.result.count;
         })
@@ -88,6 +129,13 @@
            line-height: 20px;
            font-size: 16px;
          }
+       }
+       .noData-tip{
+         text-align: center;
+         margin-top: 30px;
+         font-size: 14px;
+         color: #c2c2c2;
+         min-height: 200px;
        }
        .new-item{
          margin-top: 15px;

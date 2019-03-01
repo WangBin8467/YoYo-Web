@@ -65,7 +65,6 @@
          width: 100%;
          margin: 0 auto;
          border-top: 1px solid #eee;
-    
          padding-top: 40px;
          line-height: 1.6;
          background-color: #2c3e50;

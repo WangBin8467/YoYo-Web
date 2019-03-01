@@ -17,19 +17,19 @@
             <span slot="title">为你推荐</span>
           </el-menu-item>
           <el-menu-item index="Trading">
-            <i class="el-icon-menu"></i>
+            <i class="el-icon-goods"></i>
             <span slot="title">闲置交易</span>
           </el-menu-item>
           <el-menu-item index="Graduation">
-            <i class="el-icon-document"></i>
+            <i class="el-icon-message"></i>
             <span slot="title">毕业贩卖</span>
           </el-menu-item>
           <el-menu-item index="Find">
-            <i class="el-icon-setting"></i>
+            <i class="el-icon-bell"></i>
             <span slot="title">寻物启事</span>
           </el-menu-item>
           <el-menu-item index="Corner">
-            <i class="el-icon-setting"></i>
+            <i class="el-icon-phone-outline"></i>
             <span slot="title">树洞角落</span>
           </el-menu-item>
         </el-menu>
@@ -38,27 +38,24 @@
         <Lunbo></Lunbo>
         <router-view></router-view>
       </div>
-      <div class="content-recommend">
-        <div class="hot-header">
-          <div>沸点<span class="hot-top" style="font-weight: bold">&nbsp;&nbsp;HOT</span></div>
-          <span class="hot-top"><i class="fa fa-signal"></i>&nbsp;&nbsp;Top 5</span>
-        </div>
-        <div class="hot-group">
-          <div class="hot-item">
-            <div class="hot-title">
-              <span>1</span>
-              <span>微信小程序黑客马拉松</span>
-            </div>
-            <div class="hot-info"></div>
-          </div>
-          <div class="hot-progress"></div>
-        </div>
-      </div>
+      <!--<div class="content-recommend">-->
+        <!--<div class="hot-header">-->
+          <!--<div>沸点<span class="hot-top" style="font-weight: bold">&nbsp;&nbsp;HOT</span></div>-->
+          <!--<span class="hot-top"><i class="fa fa-signal"></i>&nbsp;&nbsp;Top 5</span>-->
+        <!--</div>-->
+        <!--<div class="hot-group">-->
+          <!--<div class="hot-item">-->
+            <!--<div class="hot-title">-->
+              <!--<span>1</span>-->
+              <!--<span>微信小程序黑客马拉松</span>-->
+            <!--</div>-->
+            <!--<div class="hot-info"></div>-->
+          <!--</div>-->
+          <!--<div class="hot-progress"></div>-->
+        <!--</div>-->
+      <!--</div>-->
     </div>
     <!--首页content end-->
-    
-   
-    
   </div>
 </template>
 
