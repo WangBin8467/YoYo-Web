@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 
 import Home from './../views/home/Home';
 
@@ -9,7 +9,10 @@ import NewsAdd from 'src/views/news/newsAdd';
 
 import UserCenter from 'src/views/user/user-center';
 
-Vue.use(Router)
+import adminHome from 'src/views/admin/adminHome';
+import adminLogin from 'src/views/admin/admin-login';
+
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -18,38 +21,38 @@ export default new Router({
       name: 'Home',
       component: Home,
       redirect: { name: 'NewsItem' },
-      children:[
+      children: [
         {
-          path:'News',
-          name:'NewsItem',
-          component:NewsItem,
+          path: 'News',
+          name: 'NewsItem',
+          component: NewsItem,
           props: true,
         },
         {
-          path:'Trading',
-          name:'NewsItem',
-          component:NewsItem,
+          path: 'Trading',
+          name: 'NewsItem',
+          component: NewsItem,
           props: true,
         },
         {
-          path:'Graduation',
-          name:'NewsItem',
-          component:NewsItem,
+          path: 'Graduation',
+          name: 'NewsItem',
+          component: NewsItem,
           props: true,
         },
         {
-          path:'Find',
-          name:'NewsItem',
-          component:NewsItem,
+          path: 'Find',
+          name: 'NewsItem',
+          component: NewsItem,
           props: true,
         },
         {
-          path:'Corner',
-          name:'NewsItem',
-          component:NewsItem,
+          path: 'Corner',
+          name: 'NewsItem',
+          component: NewsItem,
           props: true,
         },
-      ]
+      ],
     },
     {
       path: '/News/id/:id',
@@ -67,8 +70,18 @@ export default new Router({
       component: UserCenter,
     },
     {
-      path: '*',
-      redirect:{name:'Home'}
+      path: '/admin/home',
+      name: 'adminHome',
+      component: adminHome,
     },
-  ]
-})
+    {
+      path: '/admin/home/login',
+      name: 'adminLogin',
+      component: adminLogin,
+    },
+    {
+      path: '*',
+      redirect: { name: 'Home' },
+    },
+  ],
+});
